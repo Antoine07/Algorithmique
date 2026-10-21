@@ -20,8 +20,8 @@
     title?.focus({preventScroll:true});
     window.scrollTo({top:0, behavior:'instant'});
   };
-  const pageHeading = extra => `<div class="page-heading"><div><p class="eyebrow">LE LABO PYTHON / ${content.questions ? 'AUTOÉVALUATION' : 'COURS & PRATIQUE'}</p><h1>${escape(content.title)}</h1><p>${escape(content.subtitle)}</p></div>${extra || ''}</div>`;
-  const progress = (value, total, label, right) => `<div class="progress-line"><span>${label}</span><span>${right}</span></div><progress value="${value}" max="${total}" aria-label="${content.questions ? 'Questions répondues' : 'Progression dans le cours'}"></progress>`;
+  const pageHeading = extra => `<div class="page-heading"><div><p class="eyebrow">LE LABO PYTHON / ${content.cards ? 'RÉVISION ACTIVE' : content.questions ? 'AUTOÉVALUATION' : 'COURS & PRATIQUE'}</p><h1>${escape(content.title)}</h1><p>${escape(content.subtitle)}</p></div>${extra || ''}</div>`;
+  const progress = (value, total, label, right) => `<div class="progress-line"><span>${label}</span><span>${right}</span></div><progress value="${value}" max="${total}" aria-label="${content.cards ? 'Cartes évaluées dans cette série' : content.questions ? 'Questions répondues' : 'Progression dans le cours'}"></progress>`;
 
   function initQuiz() {
     const questions = content.questions;
@@ -115,7 +115,7 @@
         return label + `<button class="slide-link" data-slide="${i}" ${i === position ? 'aria-current="step"' : ''}><small>${String(i+1).padStart(2,'0')}</small><span>${escape(item.title)}<em>${escape(item.kind)}</em></span></button>`;
       }).join('');
       root.innerHTML = pageHeading('') + progress(position+1, slides.length, `Slide ${position+1} / ${slides.length}`, escape(slide.group)) +
-        `<div class="learning-layout"><aside class="sidebar slide-sidebar" aria-label="Sommaire du cours"><p class="sidebar-title">DANS CE CHAPITRE</p><nav class="slide-list" aria-label="Choisir une slide">${links}</nav><div class="mobile-select"><label for="slide-select">Aller à une slide</label><select id="slide-select">${slides.map((item,i) => `<option value="${i}" ${i === position ? 'selected' : ''}>${i+1}. ${escape(item.kind)} — ${escape(item.title)}</option>`).join('')}</select></div><p class="keyboard-note"><kbd>←</kbd> <kbd>→</kbd> pour changer de slide.</p><a class="back-link" href="data:text/markdown;charset=utf-8,${escape(encodeURIComponent(content.source))}" download="${id === 'intro' ? '01_introduction_python.md' : '02_algorithmique.md'}">Télécharger le support ↓</a></aside><div class="content-column"><article class="slide-card ${slide.kind.startsWith('Exercice') ? 'exercise' : ''}"><div class="question-kicker">${escape(slide.kind)} <span class="pill">${id === 'intro' ? 'Python · les bases' : 'Algorithmique'}</span></div><h2 id="content-title" tabindex="-1">${escape(slide.title)}</h2><div class="prose">${slide.html}</div></article><nav class="card-controls" aria-label="Navigation du cours"><button class="button" data-action="previous" ${position === 0 ? 'disabled' : ''}>← Précédente</button>${position === slides.length-1 ? `<a class="button primary" href="${content.next}">${escape(content.nextLabel)} →</a>` : '<button class="button primary" data-action="next">Suivante →</button>'}</nav></div></div>`;
+        `<div class="learning-layout"><aside class="sidebar slide-sidebar" aria-label="Sommaire du cours"><p class="sidebar-title">DANS CE CHAPITRE</p><nav class="slide-list" aria-label="Choisir une slide">${links}</nav><div class="mobile-select"><label for="slide-select">Aller à une slide</label><select id="slide-select">${slides.map((item,i) => `<option value="${i}" ${i === position ? 'selected' : ''}>${i+1}. ${escape(item.kind)} — ${escape(item.title)}</option>`).join('')}</select></div><p class="keyboard-note"><kbd>←</kbd> <kbd>→</kbd> pour changer de slide.</p><a class="back-link" href="data:text/markdown;charset=utf-8,${escape(encodeURIComponent(content.source))}" download="${escape(content.sourceName)}">Télécharger le support ↓</a></aside><div class="content-column"><article class="slide-card ${slide.kind.startsWith('Exercice') ? 'exercise' : ''}"><div class="question-kicker">${escape(slide.kind)} <span class="pill">${id === 'intro' ? 'Python · les bases' : 'Algorithmique'}</span></div><h2 id="content-title" tabindex="-1">${escape(slide.title)}</h2><div class="prose">${slide.html}</div></article><nav class="card-controls" aria-label="Navigation du cours"><button class="button" data-action="previous" ${position === 0 ? 'disabled' : ''}>← Précédente</button>${position === slides.length-1 ? `<a class="button primary" href="${content.next}">${escape(content.nextLabel)} →</a>` : '<button class="button primary" data-action="next">Suivante →</button>'}</nav></div></div>`;
       const current = root.querySelector('.slide-link[aria-current="step"]');
       if (current) current.parentElement.scrollTop = Math.max(0, current.offsetTop - current.parentElement.offsetTop - 120);
     }
@@ -145,5 +145,109 @@
     render();
   }
 
-  if (content.questions) initQuiz(); else initSlides();
+  function initFlashcards() {
+    const cards = content.cards;
+    const total = cards.length;
+    const key = `labo-python-${id}-v1`;
+    const signature = JSON.stringify(cards);
+    const saved = store.read(key);
+    const all = () => cards.map((_, i) => i);
+    let ratings = Array(total).fill(null);
+    let queue = all();
+    let position = 0;
+    let revealed = false;
+    let finished = false;
+    if (saved?.signature === signature && Array.isArray(saved.ratings) && saved.ratings.length === total &&
+        saved.ratings.every(value => value === null || value === 'known' || value === 'review') &&
+        Array.isArray(saved.queue) && saved.queue.length > 0 && new Set(saved.queue).size === saved.queue.length &&
+        saved.queue.every(i => Number.isInteger(i) && i >= 0 && i < total)) {
+      ratings = saved.ratings;
+      queue = saved.queue;
+      position = Number.isInteger(saved.position) && saved.position >= 0 && saved.position < queue.length ? saved.position : 0;
+      finished = saved.finished === true && queue.every(i => ratings[i] !== null);
+    }
+    const save = () => store.write(key, {signature, ratings, queue, position, finished});
+    const count = rating => ratings.filter(value => value === rating).length;
+    const label = rating => rating === 'known' ? 'Connue' : rating === 'review' ? 'À revoir' : 'À découvrir';
+    save();
+
+    function render() {
+      if (finished) { renderSummary(); return; }
+      const index = queue[position];
+      const card = cards[index];
+      const rated = queue.filter(i => ratings[i] !== null).length;
+      root.innerHTML = pageHeading(`<div class="score-chip"><span>DÉCLARÉES CONNUES</span><strong>${count('known')} <small>/ ${total}</small></strong></div>`) +
+        progress(rated, queue.length, `${rated} / ${queue.length} cartes évaluées dans cette série`, queue.length === total ? 'Répondre · révéler · se situer' : 'Série des cartes à revoir') +
+        `<div class="learning-layout"><aside class="sidebar"><p class="sidebar-title">VOTRE SÉRIE</p><nav class="question-map flash-map" aria-label="Choisir une flashcard">${queue.map((i, p) => `<button class="map-button ${ratings[i] === null ? '' : 'answered'}" data-card="${p}" ${p === position ? 'aria-current="step"' : ''} aria-label="Carte ${i+1} : ${escape(cards[i].title)}, ${label(ratings[i])}">${i+1}</button>`).join('')}</nav><p class="side-note">Formulez votre réponse avant de la révéler. Indiquez ensuite si vous la connaissiez.</p><p class="side-note">Cette autoévaluation n’est pas une note.</p><p class="keyboard-note"><kbd>Espace</kbd> pour révéler ou masquer.<br><kbd>←</kbd> <kbd>→</kbd> pour naviguer.</p><a class="back-link" href="${content.next}">← Revoir le chapitre 03</a><p class="side-note saved">${store.available ? 'Votre progression est conservée dans ce navigateur.' : 'Le stockage est indisponible. La progression reste accessible pendant cette visite.'}</p></aside>
+        <div class="content-column"><article class="flashcard ${revealed ? 'is-revealed' : ''}"><div class="question-kicker">Carte ${String(index+1).padStart(2,'0')} <span class="pill">${revealed ? 'Réponse révélée' : 'À vous de répondre'}</span></div><h2 id="content-title" tabindex="-1">${escape(card.title)}</h2><div class="prose flash-prompt">${card.question}</div><button class="button primary flash-reveal" data-action="reveal" aria-expanded="${revealed}" aria-controls="flash-answer">${revealed ? 'Masquer la réponse' : 'Révéler la réponse'} <span aria-hidden="true">↻</span></button><section id="flash-answer" class="flash-answer" tabindex="-1" aria-label="Réponse expliquée" ${revealed ? '' : 'hidden'}>${revealed ? `<p class="eyebrow">LA RÉPONSE À RETENIR</p><div class="prose">${card.answer}</div><p class="flash-assess-label">Aviez-vous retrouvé cette réponse ?</p><div class="flash-assessment"><button class="button" data-rating="review">À revoir</button><button class="button primary" data-rating="known">Je savais ✓</button></div><p class="neutral-note">Votre choix enregistre ce repère et passe à la carte suivante.</p>` : ''}</section></article>
+        <nav class="card-controls" aria-label="Navigation des flashcards"><button class="button" data-action="previous" ${position === 0 ? 'disabled' : ''}>← Précédente</button><span class="flash-position">${position+1} / ${queue.length}</span><button class="button" data-action="next">${rated === queue.length ? 'Voir le bilan' : position === queue.length-1 ? 'Carte à compléter' : 'Suivante'} →</button></nav><p class="neutral-note">Vous pouvez parcourir les cartes librement. Évaluez chaque carte pour terminer la série.</p></div></div>`;
+    }
+
+    function renderSummary() {
+      const review = count('review');
+      root.innerHTML = pageHeading('') + progress(queue.length, queue.length, `${queue.length} / ${queue.length} cartes évaluées dans cette série`, 'Série terminée') +
+        `<section class="results-card"><p class="eyebrow flash-centered">VOTRE AUTOÉVALUATION</p><h2 id="content-title" tabindex="-1">Les repères de votre révision</h2><p class="result-score">${count('known')}<small> / ${total}</small></p><p>Cartes déclarées connues · ${review} à revoir.</p><p class="neutral-note">Ce bilan reflète vos choix, pas une note.</p><div class="result-actions">${review ? `<button class="button primary" data-action="retry">Revoir les ${review} carte${review > 1 ? 's' : ''}</button>` : ''}<button class="button" data-action="restart">Recommencer les 8 cartes</button><a class="button" href="${content.next}">${escape(content.nextLabel)}</a><a class="button" href="../index.html">Retour au parcours</a></div></section><section class="review-list" aria-labelledby="review-heading"><h2 id="review-heading">Vos 8 repères</h2>${cards.map((card,i) => `<details class="review-item ${ratings[i] === 'review' ? 'missed' : ''}"><summary><span>${label(ratings[i])}</span> ${i+1}. ${escape(card.title)}</summary><div class="prose">${card.question}<div class="review-answer">${card.answer}</div></div></details>`).join('')}</section>`;
+    }
+
+    function go(index) {
+      if (index < 0 || index >= queue.length) return;
+      position = index;
+      revealed = false;
+      save(); render(); focusTitle();
+    }
+
+    function reveal() {
+      if (finished) return;
+      revealed = !revealed;
+      render();
+      const target = root.querySelector(revealed ? '#flash-answer' : '[data-action="reveal"]');
+      target.focus({preventScroll:true});
+      target.scrollIntoView({block:'nearest', behavior:'instant'});
+    }
+
+    function next() {
+      if (queue.every(i => ratings[i] !== null)) {
+        finished = true; save(); render(); focusTitle();
+      } else {
+        go(position < queue.length-1 ? position+1 : queue.findIndex(i => ratings[i] === null));
+      }
+    }
+
+    root.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (!button || button.disabled) return;
+      const action = button.dataset.action;
+      if (action === 'restart' || action === 'retry') {
+        if (!finished) return;
+        queue = action === 'retry' ? all().filter(i => ratings[i] === 'review') : all();
+        if (!queue.length) return;
+        queue.forEach(i => { ratings[i] = null; });
+        finished = false; go(0);
+      } else if (finished) return;
+      else if (action === 'reveal') reveal();
+      else if (button.hasAttribute('data-rating') && revealed) {
+        const rating = button.dataset.rating;
+        if (!['known','review'].includes(rating)) return;
+        ratings[queue[position]] = rating;
+        // Reprendre la prochaine carte non évaluée, y compris après une navigation libre.
+        const upcoming = queue.findIndex((i, p) => p > position && ratings[i] === null);
+        const pending = upcoming === -1 ? queue.findIndex(i => ratings[i] === null) : upcoming;
+        if (pending === -1) { finished = true; save(); render(); focusTitle(); }
+        else go(pending);
+      } else if (button.hasAttribute('data-card')) go(Number(button.dataset.card));
+      else if (action === 'previous') go(position-1);
+      else if (action === 'next') next();
+    });
+    document.addEventListener('keydown', event => {
+      if (finished || event.altKey || event.metaKey || event.ctrlKey || event.shiftKey || event.target.closest('input,select,textarea,button,a,summary,pre,[contenteditable]')) return;
+      if (event.key === ' ') { event.preventDefault(); reveal(); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); go(position-1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); next(); }
+    });
+    render();
+  }
+
+  if (content.questions) initQuiz();
+  else if (content.cards) initFlashcards();
+  else initSlides();
 })();

@@ -1,0 +1,12 @@
+name: sandbox-algo
+
+services:
+  jupyterlite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sandbox-algo/jupyterlite:local
+    ports:
+      - "127.0.0.1:8882:8888"
+    init: true
+    restart: unless-stopped

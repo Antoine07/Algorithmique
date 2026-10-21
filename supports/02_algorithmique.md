@@ -306,5 +306,5 @@ On divise 12 par 2, puis 6 par 2. Il reste 3, non divisible par 2. On a donc `12
 
 ## Corrections et révision
 
-- [Corrections expliquées des 13 exercices](../corrections/02_algorithmique_corrections.md)
+- [Corrections expliquées des 13 exercices](../corrections/03_algorithmique.md)
 - [QCM de révision — 10 questions avec feedback](../qcm/02_QCM_Revision.md)
