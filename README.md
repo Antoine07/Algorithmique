@@ -49,21 +49,7 @@ docker compose up -d --build
 
 Ouvrir **http://localhost:8882/lab/index.html**. Le notebook `00_demarrage.ipynb` permet de commencer. Les travaux sont enregistrés dans le navigateur et peuvent être téléchargés en `.ipynb`.
 
-## Modifier les contenus
+## Solution en ligne 
 
-Les sources pédagogiques restent dans `supports/*.md` et `qcm/*.md`. Après modification, régénérer les données :
+Vous pouvez utiliser jupyterlite en ligne : **https://jupyter.org/try-jupyter/lab**
 
-```sh
-python3 scripts/build_content.py
-```
-
-Le convertisseur écrit les données dans `docs/assets/content.js`, y compris les textes proposés en téléchargement. L'interface se trouve dans `docs/assets/app.js` et son style dans `docs/assets/site.css`. Les sources Markdown et les corrections restent hors de `docs/` ; les corrections ne sont pas ajoutées aux slides.
-
-## Vérifier
-
-```sh
-node --check docs/assets/app.js
-node scripts/test_site.cjs
-```
-
-Les tests vérifient la logique des parcours avec une façade DOM minimale. Ils ne remplacent pas une vérification visuelle dans un navigateur, sur ordinateur et mobile.
