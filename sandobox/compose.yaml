@@ -1,0 +1,16 @@
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sandbox/jupyter:local
+    ports:
+      - "127.0.0.1:8882:8888"
+    volumes:
+      - ./notebooks:/workspace
+    environment:
+      PYTHONPATH: /workspace
+    init: true
+    restart: unless-stopped
+    working_dir: /workspace
+    command: ["jupyter", "lab", "--config=/etc/jupyter/jupyter_server_config.py"]

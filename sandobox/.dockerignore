@@ -1,0 +1,8 @@
+**/.ipynb_checkpoints
+**/__pycache__
+**/*.pyc
+.git
+.env
+exports/
+notebooks/
+**/.DS_Store
