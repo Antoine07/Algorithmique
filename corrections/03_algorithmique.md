@@ -107,13 +107,32 @@ print(maximum)  # 15
 
 ## 8. Rechercher la première position
 
+### Correction 1 — Arrêter la boucle dès que la cible est trouvée
+
 ```python
 numbers = [4, 7, 2, 7]
 target = 7
 position = -1
 
 for index in range(len(numbers)):
-    # Ne plus remplacer la position après la première correspondance.
+    if numbers[index] == target:
+        position = index
+        break  # La première occurrence est trouvée.
+
+print(position)  # 1
+```
+
+`break` termine immédiatement la boucle : les indices suivants ne sont pas examinés. C'est adapté ici, car on cherche la **première** occurrence.
+
+### Correction 2 — Conserver le premier indice pendant le parcours
+
+```python
+numbers = [4, 7, 2, 7]
+target = 7
+position = -1
+
+for index in range(len(numbers)):
+    # Ne mémoriser la position qu'une seule fois.
     if numbers[index] == target and position == -1:
         position = index
 
