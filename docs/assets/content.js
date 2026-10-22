@@ -834,6 +834,595 @@ window.LEARNING_CONTENT = {
       }
     ],
     "next": "../supports/03_algorithmique.html",
-    "nextLabel": "Revoir le chapitre 03"
+    "nextLabel": "Revoir le chapitre 03",
+    "followup": "../supports/05_introduction_tri.html",
+    "followupLabel": "Explorer le tri"
+  },
+  "sorting": {
+    "title": "05 — Introduction au tri en Python",
+    "subtitle": "Bachelor 1 · Débutant · 2 à 3 heures",
+    "slides": [
+      {
+        "title": "Observer — Le tri par sélection",
+        "html": "<p><strong>À votre avis, comment ça marche ?</strong> Observez les valeurs comparées et celle qui est retenue comme minimum.</p>\n<p>Cette méthode cherche la plus petite valeur dans la partie restante, puis la place au début de cette partie. Les positions définitives se construisent à gauche.</p>\n<p>La sélection et l&#x27;insertion sont présentées seulement pour découvrir d&#x27;autres façons de trier. <strong>Dans ce cours, nous programmerons uniquement le tri à bulles, choisi comme point de départ simple : comparer et échanger des voisins.</strong></p>",
+        "kind": "Découverte",
+        "group": "01 · Observer et échanger",
+        "demo": {
+          "kind": "selection",
+          "values": [
+            5,
+            2,
+            4,
+            1,
+            3
+          ]
+        }
+      },
+      {
+        "title": "Observer — Le tri par insertion",
+        "html": "<p>Une partie de la liste est déjà triée. On prend la valeur suivante et on l&#x27;insère à sa place, comme une carte dans une main de cartes rangées.</p>\n<p>Dans cette animation, la valeur choisie recule vers la gauche et les valeurs plus grandes se décalent vers la droite.</p>\n<p><strong>Attention :</strong> la partie déjà triée peut encore bouger lors des insertions suivantes. Elle n&#x27;est pas nécessairement à sa position définitive.</p>\n<p><strong>À discuter :</strong> que fait cette méthode différemment de la sélection ? Nous ne détaillerons pas son code : la suite du cours porte uniquement sur le tri à bulles.</p>",
+        "kind": "Notion",
+        "group": "01 · Observer et échanger",
+        "demo": {
+          "kind": "insertion",
+          "values": [
+            5,
+            2,
+            4,
+            1,
+            3
+          ]
+        }
+      },
+      {
+        "title": "À votre avis, comment ça marche ?",
+        "html": "<p>Observez l&#x27;animation avant de regarder le code.</p>\n<ul><li>Quelles valeurs se déplacent ensemble ?</li><li>Dans quelle direction les grandes valeurs avancent-elles ?</li><li>Est-ce que toute la liste est rangée après un seul parcours ?</li></ul>\n<p>Formulez une hypothèse, puis relancez l&#x27;animation pour la vérifier.</p>",
+        "kind": "Notion",
+        "group": "01 · Observer et échanger",
+        "demo": {
+          "kind": "discovery",
+          "values": [
+            7,
+            3,
+            8,
+            2,
+            6,
+            1,
+            5,
+            4
+          ]
+        }
+      },
+      {
+        "title": "Le programme de cette séance",
+        "html": "<p><strong>Niveau :</strong> débutant · <strong>Durée :</strong> 2 à 3 heures.</p>\n<p><strong>Objectif :</strong> comprendre comment ranger des valeurs dans une liste, puis construire progressivement un tri à bulles.</p>\n<p>Les animations de sélection et d&#x27;insertion donnent un aperçu. <strong>Le seul algorithme de tri à programmer dans cette séance est le tri à bulles.</strong></p>\n<p><strong>Prérequis :</strong> variables, listes, indices, conditions <code>if</code> et boucles <code>for</code>.</p>\n<p>Commencez par prédire les résultats sur papier, puis exécutez les exemples. Pour les exercices, utilisez les opérations de base, sans <code>sort()</code> ni <code>sorted()</code>.</p>",
+        "kind": "Notion",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Qu'est-ce que trier une liste ?",
+        "html": "<p>Trier consiste à ranger des valeurs selon un ordre déterminé, sans en perdre ni en ajouter.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [5, 2, 8, 1, 4]</code></pre></div>\n<p>En ordre croissant, on veut obtenir :</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>[1, 2, 4, 5, 8]</code></pre></div>\n<p>Python propose déjà <code>sort()</code> et <code>sorted()</code>. Nous allons réaliser les opérations nous-mêmes pour comprendre le fonctionnement d&#x27;un algorithme de tri.</p>",
+        "kind": "Notion",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Exemple — Comparer deux nombres",
+        "html": "<p>Pour un ordre croissant, la plus petite valeur doit être placée avant la plus grande.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>a = 8\nb = 3\nif a &gt; b:\n    print(&quot;Les nombres sont dans le mauvais ordre&quot;)</code></pre></div>\n<p>Le programme affiche le message car <code>8 &gt; 3</code>. Il constate un problème, mais ne modifie aucune valeur.</p>",
+        "kind": "Exemple",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Exercice 1 — Vérifier l'ordre",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>a = 12\nb = 7</code></pre></div>\n<p>Écrire un programme qui affiche :</p>\n<ul><li><code>Déjà triés</code> si <code>a &lt;= b</code>.</li><li><code>À inverser</code> dans le cas contraire.</li></ul>\n<p><strong>Tests attendus :</strong> <code>12, 7</code> → <code>À inverser</code> ; <code>3, 9</code> → <code>Déjà triés</code> ; deux valeurs égales → <code>Déjà triés</code>.</p>",
+        "kind": "Exercice 1",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Exemple — Échanger deux valeurs",
+        "html": "<p>Une variable temporaire conserve la première valeur pendant l&#x27;échange. Suivez les trois affectations dans l&#x27;animation.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>a = 8\nb = 3\ntemp = a\na = b\nb = temp\nprint(a, b)  # 3 8</code></pre></div>\n<p>Sans la sauvegarde <code>temp = a</code>, la valeur 8 serait perdue lors de <code>a = b</code>.</p>",
+        "kind": "Exemple",
+        "group": "01 · Observer et échanger",
+        "demo": {
+          "kind": "swap"
+        }
+      },
+      {
+        "title": "Exercice 2 — Échanger si nécessaire",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>a = 15\nb = 6</code></pre></div>\n<p>Écrire un programme qui échange les valeurs uniquement si <code>a &gt; b</code>, avec une variable temporaire.</p>\n<p><strong>Résultat attendu :</strong> <code>6 15</code>.</p>\n<p>Tester aussi un couple déjà dans l&#x27;ordre et deux valeurs égales : ils doivent rester inchangés.</p>",
+        "kind": "Exercice 2",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Exemple — Comparer deux voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [9, 4, 7]\nif nombres[0] &gt; nombres[1]:\n    temp = nombres[0]\n    nombres[0] = nombres[1]\n    nombres[1] = temp\nprint(nombres)  # [4, 9, 7]</code></pre></div>\n<p>Les deux premières valeurs sont échangées. La liste n&#x27;est pas encore entièrement triée : 9 est toujours avant 7.</p>",
+        "kind": "Exemple",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Exercice 3 — Faire avancer la plus grande valeur",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [7, 3, 5]</code></pre></div>\n<ol><li>Comparer les valeurs aux indices 0 et 1 et les échanger si nécessaire.</li><li>Faire ensuite la même chose avec les indices 1 et 2.</li></ol>\n<p><strong>Résultat attendu :</strong> <code>[3, 5, 7]</code>.</p>\n<p><strong>Contrainte :</strong> ne pas utiliser de boucle pour cet exercice.</p>",
+        "kind": "Exercice 3",
+        "group": "01 · Observer et échanger"
+      },
+      {
+        "title": "Exemple — Automatiser les comparaisons",
+        "html": "<p>Plutôt que d&#x27;écrire plusieurs fois la même comparaison, utiliser une boucle.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [8, 3, 6, 2]\nfor i in range(len(nombres) - 1):\n    if nombres[i] &gt; nombres[i + 1]:\n        temp = nombres[i]\n        nombres[i] = nombres[i + 1]\n        nombres[i + 1] = temp\nprint(nombres)  # [3, 6, 2, 8]</code></pre></div>\n<p><code>i</code> prend les valeurs 0, 1 et 2. <code>i + 1</code> reste ainsi un indice valide.</p>",
+        "kind": "Exemple",
+        "group": "02 · Construire un passage"
+      },
+      {
+        "title": "Observer un seul passage",
+        "html": "<p>Un <strong>passage</strong> compare successivement tous les couples voisins de la partie à traiter.</p>\n<p>Avec <code>[8, 3, 6, 2]</code>, la valeur 8 arrive à la fin. Le résultat est <code>[3, 6, 2, 8]</code> : la liste n&#x27;est pas totalement triée.</p>\n<p>Prédisez le couple qui sera comparé ensuite, puis avancez l&#x27;animation d&#x27;une étape.</p>",
+        "kind": "Notion",
+        "group": "02 · Construire un passage",
+        "demo": {
+          "kind": "pass",
+          "values": [
+            8,
+            3,
+            6,
+            2
+          ]
+        }
+      },
+      {
+        "title": "Exercice 4 — Un seul passage",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [6, 2, 9, 1, 5]</code></pre></div>\n<p>Écrire une boucle qui compare et échange les éléments voisins.</p>\n<p><strong>Avant d&#x27;exécuter :</strong> déterminer sur papier le contenu de la liste après ce passage.</p>\n<p><strong>Résultat attendu :</strong> <code>[2, 6, 1, 5, 9]</code>.</p>",
+        "kind": "Exercice 4",
+        "group": "02 · Construire un passage"
+      },
+      {
+        "title": "Exemple — Compter une action",
+        "html": "<p>Un compteur est initialisé avant la boucle et augmente seulement quand l&#x27;événement recherché se produit.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>compteur = 0\nfor valeur in [2, 0, 4]:\n    if valeur &gt; 0:\n        compteur += 1\n        print(&quot;Valeur positive :&quot;, valeur)\nprint(compteur)  # 2</code></pre></div>\n<p>Pour compter les échanges, le même principe s&#x27;applique : incrémenter le compteur dans le bloc où l&#x27;échange est réalisé.</p>",
+        "kind": "Exemple",
+        "group": "02 · Construire un passage"
+      },
+      {
+        "title": "Exercice 5 — Observer chaque échange",
+        "html": "<p>Reprendre le programme de l&#x27;exercice 4, avec <code>[6, 2, 9, 1, 5]</code>.</p>\n<ol><li>Afficher la liste après chaque échange.</li><li>Compter le nombre d&#x27;échanges réalisés pendant ce passage.</li></ol>\n<p><strong>États attendus :</strong> <code>[2, 6, 9, 1, 5]</code>, puis <code>[2, 6, 1, 9, 5]</code>, puis <code>[2, 6, 1, 5, 9]</code>.</p>\n<p><strong>Nombre d&#x27;échanges :</strong> 3. Une comparaison qui ne provoque pas d&#x27;échange ne doit pas augmenter ce compteur.</p>",
+        "kind": "Exercice 5",
+        "group": "02 · Construire un passage"
+      },
+      {
+        "title": "Le tri à bulles, passage après passage",
+        "html": "<p>Un seul passage ne suffit pas toujours. Il faut recommencer sur la partie qui reste à ranger.</p>\n<p>Le <strong>tri à bulles</strong> compare des éléments voisins et les échange lorsqu&#x27;ils sont dans le mauvais ordre. Après chaque passage, la plus grande valeur de la partie parcourue a rejoint sa position définitive à droite.</p>\n<p>Observez <code>[5, 2, 4, 1, 3]</code> : les positions définitives s&#x27;accumulent à droite. La version présentée effectue 4 passages et 10 comparaisons.</p>",
+        "kind": "Notion",
+        "group": "03 · Trier toute la liste",
+        "demo": {
+          "kind": "bubble",
+          "values": [
+            5,
+            2,
+            4,
+            1,
+            3
+          ]
+        }
+      },
+      {
+        "title": "Exemple — Le programme complet",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [5, 2, 4, 1, 3]\nfor passage in range(len(nombres) - 1):\n    for i in range(len(nombres) - 1 - passage):\n        if nombres[i] &gt; nombres[i + 1]:\n            temp = nombres[i]\n            nombres[i] = nombres[i + 1]\n            nombres[i + 1] = temp\nprint(nombres)  # [1, 2, 3, 4, 5]</code></pre></div>\n<ul><li>La boucle extérieure répète les passages.</li><li>La boucle intérieure compare les voisins.</li><li><code>len(nombres) - 1 - passage</code> évite les dernières valeurs déjà placées.</li></ul>\n<p>Avec 5 valeurs, les passages réalisent 4, puis 3, puis 2, puis 1 comparaison.</p>",
+        "kind": "Exemple",
+        "group": "03 · Trier toute la liste"
+      },
+      {
+        "title": "Exercice 6 — Tri à bulles guidé",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [4, 1, 3, 2]</code></pre></div>\n<p>Reprendre le programme complet et afficher la liste après chaque passage de la boucle extérieure.</p>\n<p><strong>Résultats attendus :</strong></p>\n<div class=\"code-block\"><span class=\"code-label\">Résultat</span><pre tabindex=\"0\"><code>Passage 1 : [1, 3, 2, 4]\nPassage 2 : [1, 2, 3, 4]\nPassage 3 : [1, 2, 3, 4]</code></pre></div>\n<p>L&#x27;affichage doit être après la boucle intérieure, mais encore dans la boucle extérieure. Le dernier passage ne modifie rien dans cet exemple.</p>",
+        "kind": "Exercice 6",
+        "group": "03 · Trier toute la liste"
+      },
+      {
+        "title": "Exemple — Changer l'ordre recherché",
+        "html": "<p>En ordre décroissant, la plus grande valeur doit être placée avant la plus petite.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>a = 3\nb = 8\nif a &lt; b:\n    print(&quot;À inverser pour un ordre décroissant&quot;)</code></pre></div>\n<p>Le test est inversé par rapport à l&#x27;ordre croissant. On conserve la même méthode d&#x27;échange.</p>",
+        "kind": "Exemple",
+        "group": "03 · Trier toute la liste"
+      },
+      {
+        "title": "Exercice 7 — Trier dans l'ordre décroissant",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [6, 2, 9, 1, 5]</code></pre></div>\n<p>Modifier le tri à bulles pour obtenir un ordre décroissant.</p>\n<p><strong>Résultat attendu :</strong> <code>[9, 6, 5, 2, 1]</code>.</p>\n<p><strong>Indice :</strong> une seule modification de l&#x27;opérateur de comparaison est nécessaire.</p>",
+        "kind": "Exercice 7",
+        "group": "03 · Trier toute la liste"
+      },
+      {
+        "title": "Exemple — Arrêter une boucle avec break",
+        "html": "<p><code>break</code> arrête immédiatement la boucle dans laquelle il se trouve.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>for nombre in [4, 0, 7]:\n    if nombre == 0:\n        break\n    print(nombre)  # seul 4 est affiché</code></pre></div>\n<p>Pour arrêter les passages du tri, le <code>break</code> devra être dans la boucle extérieure, après la fin de la boucle intérieure.</p>\n<p>Un booléen peut mémoriser si une action a eu lieu pendant le passage : il commence à <code>False</code> et devient <code>True</code> lors d&#x27;un échange.</p>",
+        "kind": "Exemple",
+        "group": "03 · Trier toute la liste"
+      },
+      {
+        "title": "Exercice 8 — Éviter les passages inutiles",
+        "html": "<p>Reprendre le tri à bulles et ajouter un booléen <code>echange</code>.</p>\n<ol><li>Au début de chaque passage, remettre <code>echange</code> à <code>False</code>.</li><li>Après chaque échange, lui affecter <code>True</code>.</li><li>Après la boucle intérieure, si aucun échange n&#x27;a eu lieu, arrêter les passages avec <code>break</code>.</li></ol>\n<p>Tester avec <code>nombres = [1, 2, 3, 4, 5]</code>.</p>\n<p><strong>Question :</strong> combien de passages sont nécessaires pour constater que cette liste est déjà triée ? Expliquer pourquoi un passage sans échange suffit.</p>\n<p>Tester aussi une liste désordonnée, deux valeurs égales, une liste vide et une liste à un seul élément.</p>",
+        "kind": "Exercice 8",
+        "group": "03 · Trier toute la liste"
+      },
+      {
+        "title": "Bilan — Expliquer avant de coder",
+        "html": "<p>À la fin du cours, vous devez pouvoir expliquer :</p>\n<ul><li>Pourquoi comparer deux valeurs ne suffit pas à trier une liste entière.</li><li>Comment échanger deux éléments avec une variable temporaire.</li><li>Comment une boucle traite les couples voisins.</li><li>Pourquoi le tri à bulles utilise deux boucles.</li><li>Comment vérifier qu&#x27;une liste est triée : chaque valeur est inférieure ou égale à la suivante, sans perte ni ajout de valeurs.</li></ul>\n<p><strong>À retenir :</strong> comparer, échanger si nécessaire, terminer un passage, recommencer.</p>\n<p>Le tri à bulles sert ici à comprendre les déplacements et les indices. Pour des listes importantes en pratique, utiliser les outils de tri de Python.</p>\n<p><strong>Conseil pour la séance :</strong> consacrer davantage de temps aux exercices 2 à 5 qu&#x27;au programme complet. La priorité est de comprendre le déplacement des valeurs et le rôle des indices.</p>",
+        "kind": "Notion",
+        "group": "03 · Trier toute la liste"
+      }
+    ],
+    "source": "# Introduction au tri en Python — Bachelor 1\n\n## Observer — Le tri par sélection\n\n**À votre avis, comment ça marche ?** Observez les valeurs comparées et celle qui est retenue comme minimum.\n\nCette méthode cherche la plus petite valeur dans la partie restante, puis la place au début de cette partie. Les positions définitives se construisent à gauche.\n\nLa sélection et l'insertion sont présentées seulement pour découvrir d'autres façons de trier. **Dans ce cours, nous programmerons uniquement le tri à bulles, choisi comme point de départ simple : comparer et échanger des voisins.**\n\n## Observer — Le tri par insertion\n\nUne partie de la liste est déjà triée. On prend la valeur suivante et on l'insère à sa place, comme une carte dans une main de cartes rangées.\n\nDans cette animation, la valeur choisie recule vers la gauche et les valeurs plus grandes se décalent vers la droite.\n\n**Attention :** la partie déjà triée peut encore bouger lors des insertions suivantes. Elle n'est pas nécessairement à sa position définitive.\n\n**À discuter :** que fait cette méthode différemment de la sélection ? Nous ne détaillerons pas son code : la suite du cours porte uniquement sur le tri à bulles.\n\n## À votre avis, comment ça marche ?\n\nObservez l'animation avant de regarder le code.\n\n- Quelles valeurs se déplacent ensemble ?\n- Dans quelle direction les grandes valeurs avancent-elles ?\n- Est-ce que toute la liste est rangée après un seul parcours ?\n\nFormulez une hypothèse, puis relancez l'animation pour la vérifier.\n\n## Le programme de cette séance\n\n**Niveau :** débutant · **Durée :** 2 à 3 heures.\n\n**Objectif :** comprendre comment ranger des valeurs dans une liste, puis construire progressivement un tri à bulles.\n\nLes animations de sélection et d'insertion donnent un aperçu. **Le seul algorithme de tri à programmer dans cette séance est le tri à bulles.**\n\n**Prérequis :** variables, listes, indices, conditions `if` et boucles `for`.\n\nCommencez par prédire les résultats sur papier, puis exécutez les exemples. Pour les exercices, utilisez les opérations de base, sans `sort()` ni `sorted()`.\n\n## Qu'est-ce que trier une liste ?\n\nTrier consiste à ranger des valeurs selon un ordre déterminé, sans en perdre ni en ajouter.\n\n```python\nnombres = [5, 2, 8, 1, 4]\n```\n\nEn ordre croissant, on veut obtenir :\n\n```python\n[1, 2, 4, 5, 8]\n```\n\nPython propose déjà `sort()` et `sorted()`. Nous allons réaliser les opérations nous-mêmes pour comprendre le fonctionnement d'un algorithme de tri.\n\n## Exemple — Comparer deux nombres\n\nPour un ordre croissant, la plus petite valeur doit être placée avant la plus grande.\n\n```python\na = 8\nb = 3\nif a > b:\n    print(\"Les nombres sont dans le mauvais ordre\")\n```\n\nLe programme affiche le message car `8 > 3`. Il constate un problème, mais ne modifie aucune valeur.\n\n## Exercice 1 — Vérifier l'ordre\n\n```python\na = 12\nb = 7\n```\n\nÉcrire un programme qui affiche :\n\n- `Déjà triés` si `a <= b`.\n- `À inverser` dans le cas contraire.\n\n**Tests attendus :** `12, 7` → `À inverser` ; `3, 9` → `Déjà triés` ; deux valeurs égales → `Déjà triés`.\n\n## Exemple — Échanger deux valeurs\n\nUne variable temporaire conserve la première valeur pendant l'échange. Suivez les trois affectations dans l'animation.\n\n```python\na = 8\nb = 3\ntemp = a\na = b\nb = temp\nprint(a, b)  # 3 8\n```\n\nSans la sauvegarde `temp = a`, la valeur 8 serait perdue lors de `a = b`.\n\n## Exercice 2 — Échanger si nécessaire\n\n```python\na = 15\nb = 6\n```\n\nÉcrire un programme qui échange les valeurs uniquement si `a > b`, avec une variable temporaire.\n\n**Résultat attendu :** `6 15`.\n\nTester aussi un couple déjà dans l'ordre et deux valeurs égales : ils doivent rester inchangés.\n\n## Exemple — Comparer deux voisins\n\n```python\nnombres = [9, 4, 7]\nif nombres[0] > nombres[1]:\n    temp = nombres[0]\n    nombres[0] = nombres[1]\n    nombres[1] = temp\nprint(nombres)  # [4, 9, 7]\n```\n\nLes deux premières valeurs sont échangées. La liste n'est pas encore entièrement triée : 9 est toujours avant 7.\n\n## Exercice 3 — Faire avancer la plus grande valeur\n\n```python\nnombres = [7, 3, 5]\n```\n\n1. Comparer les valeurs aux indices 0 et 1 et les échanger si nécessaire.\n2. Faire ensuite la même chose avec les indices 1 et 2.\n\n**Résultat attendu :** `[3, 5, 7]`.\n\n**Contrainte :** ne pas utiliser de boucle pour cet exercice.\n\n## Exemple — Automatiser les comparaisons\n\nPlutôt que d'écrire plusieurs fois la même comparaison, utiliser une boucle.\n\n```python\nnombres = [8, 3, 6, 2]\nfor i in range(len(nombres) - 1):\n    if nombres[i] > nombres[i + 1]:\n        temp = nombres[i]\n        nombres[i] = nombres[i + 1]\n        nombres[i + 1] = temp\nprint(nombres)  # [3, 6, 2, 8]\n```\n\n`i` prend les valeurs 0, 1 et 2. `i + 1` reste ainsi un indice valide.\n\n## Observer un seul passage\n\nUn **passage** compare successivement tous les couples voisins de la partie à traiter.\n\nAvec `[8, 3, 6, 2]`, la valeur 8 arrive à la fin. Le résultat est `[3, 6, 2, 8]` : la liste n'est pas totalement triée.\n\nPrédisez le couple qui sera comparé ensuite, puis avancez l'animation d'une étape.\n\n## Exercice 4 — Un seul passage\n\n```python\nnombres = [6, 2, 9, 1, 5]\n```\n\nÉcrire une boucle qui compare et échange les éléments voisins.\n\n**Avant d'exécuter :** déterminer sur papier le contenu de la liste après ce passage.\n\n**Résultat attendu :** `[2, 6, 1, 5, 9]`.\n\n## Exemple — Compter une action\n\nUn compteur est initialisé avant la boucle et augmente seulement quand l'événement recherché se produit.\n\n```python\ncompteur = 0\nfor valeur in [2, 0, 4]:\n    if valeur > 0:\n        compteur += 1\n        print(\"Valeur positive :\", valeur)\nprint(compteur)  # 2\n```\n\nPour compter les échanges, le même principe s'applique : incrémenter le compteur dans le bloc où l'échange est réalisé.\n\n## Exercice 5 — Observer chaque échange\n\nReprendre le programme de l'exercice 4, avec `[6, 2, 9, 1, 5]`.\n\n1. Afficher la liste après chaque échange.\n2. Compter le nombre d'échanges réalisés pendant ce passage.\n\n**États attendus :** `[2, 6, 9, 1, 5]`, puis `[2, 6, 1, 9, 5]`, puis `[2, 6, 1, 5, 9]`.\n\n**Nombre d'échanges :** 3. Une comparaison qui ne provoque pas d'échange ne doit pas augmenter ce compteur.\n\n## Le tri à bulles, passage après passage\n\nUn seul passage ne suffit pas toujours. Il faut recommencer sur la partie qui reste à ranger.\n\nLe **tri à bulles** compare des éléments voisins et les échange lorsqu'ils sont dans le mauvais ordre. Après chaque passage, la plus grande valeur de la partie parcourue a rejoint sa position définitive à droite.\n\nObservez `[5, 2, 4, 1, 3]` : les positions définitives s'accumulent à droite. La version présentée effectue 4 passages et 10 comparaisons.\n\n## Exemple — Le programme complet\n\n```python\nnombres = [5, 2, 4, 1, 3]\nfor passage in range(len(nombres) - 1):\n    for i in range(len(nombres) - 1 - passage):\n        if nombres[i] > nombres[i + 1]:\n            temp = nombres[i]\n            nombres[i] = nombres[i + 1]\n            nombres[i + 1] = temp\nprint(nombres)  # [1, 2, 3, 4, 5]\n```\n\n- La boucle extérieure répète les passages.\n- La boucle intérieure compare les voisins.\n- `len(nombres) - 1 - passage` évite les dernières valeurs déjà placées.\n\nAvec 5 valeurs, les passages réalisent 4, puis 3, puis 2, puis 1 comparaison.\n\n## Exercice 6 — Tri à bulles guidé\n\n```python\nnombres = [4, 1, 3, 2]\n```\n\nReprendre le programme complet et afficher la liste après chaque passage de la boucle extérieure.\n\n**Résultats attendus :**\n\n```output\nPassage 1 : [1, 3, 2, 4]\nPassage 2 : [1, 2, 3, 4]\nPassage 3 : [1, 2, 3, 4]\n```\n\nL'affichage doit être après la boucle intérieure, mais encore dans la boucle extérieure. Le dernier passage ne modifie rien dans cet exemple.\n\n## Exemple — Changer l'ordre recherché\n\nEn ordre décroissant, la plus grande valeur doit être placée avant la plus petite.\n\n```python\na = 3\nb = 8\nif a < b:\n    print(\"À inverser pour un ordre décroissant\")\n```\n\nLe test est inversé par rapport à l'ordre croissant. On conserve la même méthode d'échange.\n\n## Exercice 7 — Trier dans l'ordre décroissant\n\n```python\nnombres = [6, 2, 9, 1, 5]\n```\n\nModifier le tri à bulles pour obtenir un ordre décroissant.\n\n**Résultat attendu :** `[9, 6, 5, 2, 1]`.\n\n**Indice :** une seule modification de l'opérateur de comparaison est nécessaire.\n\n## Exemple — Arrêter une boucle avec break\n\n`break` arrête immédiatement la boucle dans laquelle il se trouve.\n\n```python\nfor nombre in [4, 0, 7]:\n    if nombre == 0:\n        break\n    print(nombre)  # seul 4 est affiché\n```\n\nPour arrêter les passages du tri, le `break` devra être dans la boucle extérieure, après la fin de la boucle intérieure.\n\nUn booléen peut mémoriser si une action a eu lieu pendant le passage : il commence à `False` et devient `True` lors d'un échange.\n\n## Exercice 8 — Éviter les passages inutiles\n\nReprendre le tri à bulles et ajouter un booléen `echange`.\n\n1. Au début de chaque passage, remettre `echange` à `False`.\n2. Après chaque échange, lui affecter `True`.\n3. Après la boucle intérieure, si aucun échange n'a eu lieu, arrêter les passages avec `break`.\n\nTester avec `nombres = [1, 2, 3, 4, 5]`.\n\n**Question :** combien de passages sont nécessaires pour constater que cette liste est déjà triée ? Expliquer pourquoi un passage sans échange suffit.\n\nTester aussi une liste désordonnée, deux valeurs égales, une liste vide et une liste à un seul élément.\n\n## Bilan — Expliquer avant de coder\n\nÀ la fin du cours, vous devez pouvoir expliquer :\n\n- Pourquoi comparer deux valeurs ne suffit pas à trier une liste entière.\n- Comment échanger deux éléments avec une variable temporaire.\n- Comment une boucle traite les couples voisins.\n- Pourquoi le tri à bulles utilise deux boucles.\n- Comment vérifier qu'une liste est triée : chaque valeur est inférieure ou égale à la suivante, sans perte ni ajout de valeurs.\n\n**À retenir :** comparer, échanger si nécessaire, terminer un passage, recommencer.\n\nLe tri à bulles sert ici à comprendre les déplacements et les indices. Pour des listes importantes en pratique, utiliser les outils de tri de Python.\n\n**Conseil pour la séance :** consacrer davantage de temps aux exercices 2 à 5 qu'au programme complet. La priorité est de comprendre le déplacement des valeurs et le rôle des indices.\n",
+    "sourceName": "05_introduction_tri.md",
+    "next": "../revision/06_flashcards_tri.html",
+    "nextLabel": "Réviser le tri en 5 cartes"
+  },
+  "flashtri": {
+    "title": "5 flashcards sur le tri",
+    "subtitle": "Comparer, échanger et répéter",
+    "cards": [
+      {
+        "title": "Garder une valeur pendant l'échange",
+        "question": "<p>Avec <code>a = 9</code> et <code>b = 2</code>, pourquoi ne suffit-il pas d&#x27;écrire <code>a = b</code> puis <code>b = a</code> ?</p>",
+        "answer": "<p>Après <code>a = b</code>, les deux variables valent 2 et la valeur 9 est perdue. Il faut d&#x27;abord la conserver : <code>temp = a</code>, puis <code>a = b</code>, puis <code>b = temp</code>. On obtient <code>a = 2</code> et <code>b = 9</code>.</p>"
+      },
+      {
+        "title": "Rester dans la liste",
+        "question": "<p>Pourquoi un passage utilise-t-il <code>range(len(nombres) - 1)</code> lorsque l&#x27;on compare <code>nombres[i]</code> et <code>nombres[i + 1]</code> ?</p>",
+        "answer": "<p>Le dernier couple commence à l&#x27;indice <code>len(nombres) - 2</code>. Comme <code>range</code> exclut sa borne finale, <code>i + 1</code> ne dépasse jamais le dernier indice. Pour une liste de 4 éléments, les départs sont 0, 1 et 2.</p>"
+      },
+      {
+        "title": "Comprendre un passage",
+        "question": "<p>Après un passage croissant sur <code>[4, 1, 3, 2]</code>, quelle liste obtient-on ? Est-elle entièrement triée ?</p>",
+        "answer": "<p>On obtient <strong><code>[1, 3, 2, 4]</code></strong>. Le maximum 4 a atteint sa position définitive, mais 3 et 2 sont encore dans le mauvais ordre. Un passage ne suffit pas toujours.</p>"
+      },
+      {
+        "title": "Deux boucles, deux rôles",
+        "question": "<p>À quoi servent les deux boucles du tri à bulles et pourquoi réduire la borne avec <code>len(nombres) - 1 - passage</code> ?</p>",
+        "answer": "<p>La boucle extérieure répète les passages. La boucle intérieure compare les voisins. Après chaque passage, une valeur supplémentaire est définitivement placée à droite : la borne réduite évite de la comparer à nouveau.</p>"
+      },
+      {
+        "title": "Savoir quand arrêter",
+        "question": "<p>Un passage complet ne réalise aucun échange. Que peut-on en déduire et où faut-il placer <code>break</code> ?</p>",
+        "answer": "<p>La liste est déjà triée : aucun couple voisin n&#x27;est dans le mauvais ordre. Le <code>break</code> se place dans la boucle extérieure, <strong>après</strong> la boucle intérieure, sous le test <code>if not echange</code>. Le booléen <code>echange</code> doit être remis à <code>False</code> au début de chaque passage. Pour <code>[1, 2, 3]</code>, un passage suffit à le constater.</p>"
+      }
+    ],
+    "next": "../supports/05_introduction_tri.html",
+    "nextLabel": "Revoir le cours sur le tri",
+    "followup": "../qcm/03_QCM_Tri.html",
+    "followupLabel": "Faire le QCM sur le tri"
+  },
+  "quizTri": {
+    "title": "QCM — Le tri à bulles",
+    "subtitle": "5 questions pour vérifier votre compréhension",
+    "questions": [
+      {
+        "title": "Comparer ne suffit pas",
+        "prompt": "<p>Que contient la liste après ce programme ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [7, 2]\nif nombres[0] &gt; nombres[1]:\n    print(&quot;À inverser&quot;)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>[2, 7]</code></span>",
+          "<span class=\"option-text\"><code>[7, 2]</code></span>",
+          "<span class=\"option-text\"><code>[7, 7]</code></span>",
+          "<span class=\"option-text\"><code>[]</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>La liste reste <code>[7, 2]</code>. Le programme affiche un message, mais aucune affectation ne modifie ses éléments.</p>",
+        "feedback": "<p>La liste reste <code>[7, 2]</code>. Le programme affiche un message, mais aucune affectation ne modifie ses éléments.</p>\n<p>A supposerait un échange. C supposerait un remplacement et D une suppression : aucune de ces opérations ne figure dans le code.</p>"
+      },
+      {
+        "title": "Un seul passage",
+        "prompt": "<p>On effectue un seul passage de gauche à droite sur <code>[4, 1, 3, 2]</code>, en échangeant les voisins si la valeur de gauche est plus grande. Quel résultat obtient-on ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>[1, 2, 3, 4]</code></span>",
+          "<span class=\"option-text\"><code>[4, 3, 2, 1]</code></span>",
+          "<span class=\"option-text\"><code>[1, 4, 3, 2]</code></span>",
+          "<span class=\"option-text\"><code>[1, 3, 2, 4]</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p>4 avance successivement devant 1, puis 3, puis 2. Le résultat est <code>[1, 3, 2, 4]</code> : seul le maximum est assuré d’être définitivement placé après ce passage.</p>",
+        "feedback": "<p>4 avance successivement devant 1, puis 3, puis 2. Le résultat est <code>[1, 3, 2, 4]</code> : seul le maximum est assuré d’être définitivement placé après ce passage.</p>\n<p>A est le résultat du tri complet. B est un ordre décroissant. C s’arrête après le premier échange.</p>"
+      },
+      {
+        "title": "Réduire la partie à parcourir",
+        "prompt": "<p>Pour une liste de longueur 5 et <code>passage = 2</code>, quelles valeurs prend <code>i</code> dans <code>range(len(nombres) - 1 - passage)</code> ?</p>",
+        "options": [
+          "<span class=\"option-text\">0 et 1</span>",
+          "<span class=\"option-text\">0, 1 et 2</span>",
+          "<span class=\"option-text\">2, 3 et 4</span>",
+          "<span class=\"option-text\">0, 1, 2 et 3</span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>La borne vaut <code>5 - 1 - 2 = 2</code>. <code>range(2)</code> donne 0 et 1. Deux valeurs à droite ont déjà été placées par les passages précédents.</p>",
+        "feedback": "<p>La borne vaut <code>5 - 1 - 2 = 2</code>. <code>range(2)</code> donne 0 et 1. Deux valeurs à droite ont déjà été placées par les passages précédents.</p>\n<p>B inclut à tort la borne finale. C commence au numéro du passage au lieu de 0. D oublie de réduire la borne.</p>"
+      },
+      {
+        "title": "Choisir un ordre décroissant",
+        "prompt": "<p>Quel test déclenche l’échange de deux voisins pour trier du plus grand au plus petit ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>nombres[i] &gt; nombres[i + 1]</code></span>",
+          "<span class=\"option-text\"><code>nombres[i] == nombres[i + 1]</code></span>",
+          "<span class=\"option-text\"><code>nombres[i] &lt; nombres[i + 1]</code></span>",
+          "<span class=\"option-text\"><code>nombres[i] != nombres[i + 1]</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p>Il faut échanger lorsque la valeur de gauche est plus petite que celle de droite : la plus grande passe alors devant.</p>",
+        "feedback": "<p>Il faut échanger lorsque la valeur de gauche est plus petite que celle de droite : la plus grande passe alors devant.</p>\n<p>A correspond à l’ordre croissant. B ne traite que les égalités. D échange aussi des couples déjà dans le bon ordre.</p>"
+      },
+      {
+        "title": "Arrêter les passages",
+        "prompt": "<p>Dans la version optimisée, que fait-on après un passage complet sans aucun échange ?</p>",
+        "options": [
+          "<span class=\"option-text\">Recommencer obligatoirement tous les passages restants.</span>",
+          "<span class=\"option-text\">Arrêter la boucle extérieure avec <code>break</code>.</span>",
+          "<span class=\"option-text\">Arrêter dès la première comparaison sans échange.</span>",
+          "<span class=\"option-text\">Inverser la liste.</span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>Un passage complet sans échange montre qu’aucun couple voisin n’est dans le mauvais ordre. On peut arrêter la boucle extérieure. Le booléen de suivi est remis à <code>False</code> au début de chaque passage.</p>",
+        "feedback": "<p>Un passage complet sans échange montre qu’aucun couple voisin n’est dans le mauvais ordre. On peut arrêter la boucle extérieure. Le booléen de suivi est remis à <code>False</code> au début de chaque passage.</p>\n<p>A ignore l’optimisation. C conclut trop tôt : les couples suivants peuvent encore être désordonnés. D détruirait l’ordre obtenu.</p>"
+      }
+    ],
+    "conventions": "<ul><li><code>=</code> affecte ; <code>==</code> compare.</li><li>Les indices commencent à 0.</li><li>La borne finale de <code>range</code> est exclue.</li><li><code>%</code> donne le reste ; <code>//</code> donne le quotient arrondi vers le bas.</li></ul>",
+    "next": "04_QCM_General.html",
+    "nextLabel": "Faire le QCM général"
+  },
+  "quizGeneral": {
+    "title": "QCM général",
+    "subtitle": "20 questions pour revoir tout le parcours",
+    "questions": [
+      {
+        "title": "Affectation et valeur courante",
+        "prompt": "<p>Que s’affiche-t-il ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>x = 4\ny = x\nx = x + 3\nprint(x, y)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>4 4</code></span>",
+          "<span class=\"option-text\"><code>7 7</code></span>",
+          "<span class=\"option-text\"><code>7 4</code></span>",
+          "<span class=\"option-text\"><code>4 7</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p><code>y</code> reçoit la valeur 4. Modifier ensuite <code>x</code> ne modifie pas <code>y</code>. On affiche donc <code>7 4</code>.</p>",
+        "feedback": "<p><code>y</code> reçoit la valeur 4. Modifier ensuite <code>x</code> ne modifie pas <code>y</code>. On affiche donc <code>7 4</code>.</p>\n<p>A oublie la dernière affectation. B suppose que les deux variables restent liées. D inverse les valeurs finales.</p>"
+      },
+      {
+        "title": "Quotient, reste et puissance",
+        "prompt": "<p>Que s’affiche-t-il ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>print(17 // 5, 17 % 5, 2 ** 3)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>3 2 8</code></span>",
+          "<span class=\"option-text\"><code>3.4 2 6</code></span>",
+          "<span class=\"option-text\"><code>2 3 8</code></span>",
+          "<span class=\"option-text\"><code>3 0 6</code></span>"
+        ],
+        "answer": 0,
+        "explanation": "<p><code>17 = 5 * 3 + 2</code> donne un quotient de 3 et un reste de 2. <code>2 ** 3</code> vaut 8.</p>",
+        "feedback": "<p><code>17 = 5 * 3 + 2</code> donne un quotient de 3 et un reste de 2. <code>2 ** 3</code> vaut 8.</p>\n<p><code>/</code> donnerait 3.4, mais <code>//</code> donne ici 3. Le reste n’est pas le quotient. <code>**</code> est une puissance, pas une multiplication par 3.</p>"
+      },
+      {
+        "title": "Comparaisons et logique",
+        "prompt": "<p>Quel booléen est affiché ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>age = 17\naccompagne = True\nprint(age &gt;= 18 or accompagne)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>False</code></span>",
+          "<span class=\"option-text\"><code>17</code></span>",
+          "<span class=\"option-text\"><code>18</code></span>",
+          "<span class=\"option-text\"><code>True</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p><code>age &gt;= 18</code> est faux, mais <code>accompagne</code> est vrai. Avec <code>or</code>, une seule condition vraie suffit.</p>",
+        "feedback": "<p><code>age &gt;= 18</code> est faux, mais <code>accompagne</code> est vrai. Avec <code>or</code>, une seule condition vraie suffit.</p>\n<p>A correspondrait ici à une combinaison avec <code>and</code>. B et C sont des nombres : une comparaison combinée à ces booléens donne un booléen.</p>"
+      },
+      {
+        "title": "Choisir une branche",
+        "prompt": "<p>Que s’affiche-t-il ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>note = 10\nif note &gt; 10:\n    print(&quot;A&quot;)\nelif note == 10:\n    print(&quot;B&quot;)\nelse:\n    print(&quot;C&quot;)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>A</code></span>",
+          "<span class=\"option-text\"><code>B</code></span>",
+          "<span class=\"option-text\"><code>C</code></span>",
+          "<span class=\"option-text\"><code>A</code> puis <code>B</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p><code>10 &gt; 10</code> est faux, mais <code>10 == 10</code> est vrai. Seul le bloc <code>elif</code> s’exécute.</p>",
+        "feedback": "<p><code>10 &gt; 10</code> est faux, mais <code>10 == 10</code> est vrai. Seul le bloc <code>elif</code> s’exécute.</p>\n<p>A confond <code>&gt;</code> et <code>&gt;=</code>. C ignore le cas d’égalité. Une chaîne <code>if / elif / else</code> exécute un seul de ses blocs.</p>"
+      },
+      {
+        "title": "Boucle for et accumulateur",
+        "prompt": "<p>Quelle valeur est affichée ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>total = 0\nfor i in range(2, 5):\n    total += i\nprint(total)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>14</code></span>",
+          "<span class=\"option-text\"><code>5</code></span>",
+          "<span class=\"option-text\"><code>9</code></span>",
+          "<span class=\"option-text\"><code>4</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p><code>range(2, 5)</code> donne 2, 3 et 4. Leur somme vaut 9.</p>",
+        "feedback": "<p><code>range(2, 5)</code> donne 2, 3 et 4. Leur somme vaut 9.</p>\n<p>A inclut à tort 5. B est la borne exclue. D est seulement la dernière valeur de <code>i</code>, pas le total.</p>"
+      },
+      {
+        "title": "Boucle while",
+        "prompt": "<p>Quelle valeur est affichée ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>x = 1\nwhile x &lt; 5:\n    x = x * 2\nprint(x)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>8</code></span>",
+          "<span class=\"option-text\"><code>4</code></span>",
+          "<span class=\"option-text\"><code>5</code></span>",
+          "<span class=\"option-text\">La boucle ne s’arrête pas.</span>"
+        ],
+        "answer": 0,
+        "explanation": "<p><code>x</code> passe de 1 à 2, puis 4, puis 8. À 8, la condition est fausse et la boucle s’arrête.</p>",
+        "feedback": "<p><code>x</code> passe de 1 à 2, puis 4, puis 8. À 8, la condition est fausse et la boucle s’arrête.</p>\n<p>À 4, le test est encore vrai. Le programme n’atteint pas forcément exactement la borne 5. La variable évolue et permet l’arrêt.</p>"
+      },
+      {
+        "title": "Indices et inversion d’une liste",
+        "prompt": "<p>Que contient <code>inverse</code> à la fin ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [3, 8, 5]\ninverse = []\ni = len(nombres) - 1\nwhile i &gt;= 0:\n    inverse.append(nombres[i])\n    i -= 1</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>[3, 5, 8]</code></span>",
+          "<span class=\"option-text\"><code>[2, 1, 0]</code></span>",
+          "<span class=\"option-text\"><code>[3, 8, 5]</code></span>",
+          "<span class=\"option-text\"><code>[5, 8, 3]</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p>Les indices parcourus sont 2, 1 et 0. On ajoute les valeurs à ces indices, soit 5, 8 et 3.</p>",
+        "feedback": "<p>Les indices parcourus sont 2, 1 et 0. On ajoute les valeurs à ces indices, soit 5, 8 et 3.</p>\n<p>A trie les valeurs au lieu d’inverser l’ordre initial. B contient les indices, pas les valeurs. C ne change pas l’ordre.</p>"
+      },
+      {
+        "title": "Échanger deux variables",
+        "prompt": "<p>Après <code>a = 6</code> et <code>b = 2</code>, quelle suite échange correctement leurs valeurs ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>a = b</code> puis <code>b = a</code></span>",
+          "<span class=\"option-text\"><code>temp = a</code> puis <code>a = b</code> puis <code>b = temp</code></span>",
+          "<span class=\"option-text\"><code>temp = b</code> puis <code>a = temp</code> puis <code>b = a</code></span>",
+          "<span class=\"option-text\"><code>temp = a</code> puis <code>b = temp</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>La variable temporaire conserve 6 pendant que <code>a</code> devient 2. Puis <code>b</code> reçoit 6.</p>",
+        "feedback": "<p>La variable temporaire conserve 6 pendant que <code>a</code> devient 2. Puis <code>b</code> reçoit 6.</p>\n<p>A et C produisent deux valeurs égales à 2. D remplace seulement <code>b</code> par 6 et laisse <code>a</code> à 6.</p>"
+      },
+      {
+        "title": "Filtrer et compter",
+        "prompt": "<p>Quel couple de résultats est affiché ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valides = []\nfor note in [8, 10, 14, 7]:\n    if note &gt;= 10:\n        valides.append(note)\nprint(valides, len(valides))</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>[10, 14] 2</code></span>",
+          "<span class=\"option-text\"><code>[14] 1</code></span>",
+          "<span class=\"option-text\"><code>[10, 14] 24</code></span>",
+          "<span class=\"option-text\"><code>[8, 10, 14, 7] 4</code></span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>10 et 14 satisfont le test. La liste contient deux éléments et <code>len()</code> renvoie 2.</p>",
+        "feedback": "<p>10 et 14 satisfont le test. La liste contient deux éléments et <code>len()</code> renvoie 2.</p>\n<p>B oublie l’égalité autorisée par <code>&gt;=</code>. C donne la somme des notes au lieu de la longueur. D ne filtre aucune note.</p>"
+      },
+      {
+        "title": "Maximum avec des nombres négatifs",
+        "prompt": "<p>Pour rechercher le maximum de <code>[-7, -2, -9]</code>, quelle initialisation est fiable ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>maximum = 0</code></span>",
+          "<span class=\"option-text\"><code>maximum = -1</code></span>",
+          "<span class=\"option-text\"><code>maximum = nombres[0]</code></span>",
+          "<span class=\"option-text\"><code>maximum = len(nombres)</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p>Le premier élément est une valeur candidate de la liste. Le parcours permet ensuite de trouver -2. La liste doit être non vide.</p>",
+        "feedback": "<p>Le premier élément est une valeur candidate de la liste. Le parcours permet ensuite de trouver -2. La liste doit être non vide.</p>\n<p>0, -1 et la longueur 3 sont tous supérieurs aux éléments : ils resteraient à tort le maximum.</p>"
+      },
+      {
+        "title": "Rechercher la première occurrence",
+        "prompt": "<p>Que vaut <code>position</code> à la fin ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [5, 2, 5]\nposition = -1\nfor i in range(len(nombres)):\n    if nombres[i] == 5 and position == -1:\n        position = i</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>2</code></span>",
+          "<span class=\"option-text\"><code>5</code></span>",
+          "<span class=\"option-text\"><code>-1</code></span>",
+          "<span class=\"option-text\"><code>0</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p>Le premier 5 est à l’indice 0. Le test <code>position == -1</code> empêche de remplacer cette première position.</p>",
+        "feedback": "<p>Le premier 5 est à l’indice 0. Le test <code>position == -1</code> empêche de remplacer cette première position.</p>\n<p>A serait l’indice de la dernière occurrence. B est la valeur recherchée. C signifie absence, alors que 5 est présent.</p>"
+      },
+      {
+        "title": "Décomposer les chiffres",
+        "prompt": "<p>Quel total est affiché ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>reste = 402\ntotal = 0\nwhile reste &gt; 0:\n    total += reste % 10\n    reste = reste // 10\nprint(total)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>3</code></span>",
+          "<span class=\"option-text\"><code>6</code></span>",
+          "<span class=\"option-text\"><code>402</code></span>",
+          "<span class=\"option-text\"><code>2</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>Les chiffres extraits sont 2, 0 puis 4. Leur somme vaut 6. <code>% 10</code> extrait le dernier chiffre et <code>// 10</code> le retire.</p>",
+        "feedback": "<p>Les chiffres extraits sont 2, 0 puis 4. Leur somme vaut 6. <code>% 10</code> extrait le dernier chiffre et <code>// 10</code> le retire.</p>\n<p>A est le nombre de chiffres. C est le nombre initial. D ne compte que le premier chiffre extrait.</p>"
+      },
+      {
+        "title": "Facteurs premiers disponibles",
+        "prompt": "<p>On décompose 60 en divisant autant de fois que possible par chaque valeur de <code>premiers = [2, 3]</code>. Quels facteurs et quel reste obtient-on ?</p>",
+        "options": [
+          "<span class=\"option-text\">Facteurs <code>[2, 2, 3]</code>, reste <code>5</code> : décomposition incomplète.</span>",
+          "<span class=\"option-text\">Facteurs <code>[2, 3]</code>, reste <code>10</code> : décomposition incomplète.</span>",
+          "<span class=\"option-text\">Facteurs <code>[2, 2, 3, 5]</code>, reste <code>1</code> : décomposition complète.</span>",
+          "<span class=\"option-text\">Facteurs <code>[2, 2, 3]</code>, reste <code>1</code> : décomposition complète.</span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>60 devient 30, puis 15 après deux divisions par 2, puis 5 après une division par 3. Le facteur 5 manque à la liste fournie.</p>",
+        "feedback": "<p>60 devient 30, puis 15 après deux divisions par 2, puis 5 après une division par 3. Le facteur 5 manque à la liste fournie.</p>\n<p>B oublie la répétition de la division par 2. C ajoute un facteur non fourni. D fait disparaître le reste 5.</p>"
+      },
+      {
+        "title": "Parcourir trois voisins",
+        "prompt": "<p>Pour comparer <code>valeurs[i]</code>, <code>valeurs[i + 1]</code> et <code>valeurs[i + 2]</code>, quelle boucle parcourt tous les départs valides ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>range(len(valeurs))</code></span>",
+          "<span class=\"option-text\"><code>range(len(valeurs) - 1)</code></span>",
+          "<span class=\"option-text\"><code>range(len(valeurs) - 2)</code></span>",
+          "<span class=\"option-text\"><code>range(2, len(valeurs))</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p>Le dernier départ possible est <code>len(valeurs) - 3</code>. La borne finale exclue doit donc être <code>len(valeurs) - 2</code>.</p>",
+        "feedback": "<p>Le dernier départ possible est <code>len(valeurs) - 3</code>. La borne finale exclue doit donc être <code>len(valeurs) - 2</code>.</p>\n<p>A et B finissent par accéder après la fin de la liste. D ignore les premiers départs et conduit aussi à dépasser la fin.</p>"
+      },
+      {
+        "title": "Motifs avec chevauchement",
+        "prompt": "<p>À quels indices commence le motif <code>[2, 2]</code> dans <code>[2, 2, 2, 3]</code> ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>[0]</code></span>",
+          "<span class=\"option-text\"><code>[0, 2]</code></span>",
+          "<span class=\"option-text\"><code>[1, 2]</code></span>",
+          "<span class=\"option-text\"><code>[0, 1]</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p>Le motif apparaît aux indices 0 et 1. Les deux occurrences partagent l’élément d’indice 1 ; les chevauchements sont autorisés.</p>",
+        "feedback": "<p>Le motif apparaît aux indices 0 et 1. Les deux occurrences partagent l’élément d’indice 1 ; les chevauchements sont autorisés.</p>\n<p>A manque la seconde occurrence. À l’indice 2, la fenêtre est <code>[2, 3]</code>, qui ne correspond pas au motif.</p>"
+      },
+      {
+        "title": "Changements de signe",
+        "prompt": "<p>Dans <code>[-2, 0, 3, -1]</code>, quels sont les indices de départ des couples de signes opposés stricts ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>[0, 1, 2]</code></span>",
+          "<span class=\"option-text\"><code>[2]</code></span>",
+          "<span class=\"option-text\"><code>[0, 2]</code></span>",
+          "<span class=\"option-text\"><code>[]</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>Seul le couple <code>[3, -1]</code>, qui commence à l’indice 2, possède des signes opposés stricts. Les couples impliquant zéro sont exclus.</p>",
+        "feedback": "<p>Seul le couple <code>[3, -1]</code>, qui commence à l’indice 2, possède des signes opposés stricts. Les couples impliquant zéro sont exclus.</p>\n<p>A et C comptent un passage impliquant zéro. D oublie le passage du positif au négatif.</p>"
+      },
+      {
+        "title": "Une erreur au maximum",
+        "prompt": "<p>Pour accepter les fenêtres qui diffèrent d’un motif sur au plus une position, quelle règle est correcte ?</p>",
+        "options": [
+          "<span class=\"option-text\">Remettre le compteur à 0 à chaque fenêtre, compter les inégalités, puis tester <code>differences &lt;= 1</code>.</span>",
+          "<span class=\"option-text\">Remettre le compteur à 0 avant chaque comparaison et tester <code>differences == 1</code>.</span>",
+          "<span class=\"option-text\">Conserver le même compteur sur toutes les fenêtres et tester <code>differences &lt;= 1</code>.</span>",
+          "<span class=\"option-text\">Compter les égalités et tester <code>differences &gt; 1</code>.</span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>Chaque fenêtre doit être évaluée indépendamment. « Au plus une » accepte zéro ou une différence, donc <code>&lt;= 1</code>.</p>",
+        "feedback": "<p>Chaque fenêtre doit être évaluée indépendamment. « Au plus une » accepte zéro ou une différence, donc <code>&lt;= 1</code>.</p>\n<p>B efface les différences précédentes et exclut les correspondances exactes. C mélange plusieurs fenêtres. D compte le mauvais événement.</p>"
+      },
+      {
+        "title": "Vérifier un ordre croissant",
+        "prompt": "<p>Quel test repère une descente dans une liste, en autorisant les valeurs égales ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>nombres[i] &gt;= nombres[i + 1]</code></span>",
+          "<span class=\"option-text\"><code>nombres[i] == nombres[i + 1]</code></span>",
+          "<span class=\"option-text\"><code>nombres[i] &gt; nombres[i + 1]</code></span>",
+          "<span class=\"option-text\"><code>nombres[i] &lt; nombres[i + 1]</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p>Une descente existe lorsque la valeur actuelle est strictement supérieure à la suivante.</p>",
+        "feedback": "<p>Une descente existe lorsque la valeur actuelle est strictement supérieure à la suivante.</p>\n<p>A rejetterait aussi les égalités. B repère seulement les égalités. D repère une montée, qui respecte l’ordre croissant.</p>"
+      },
+      {
+        "title": "Un passage de tri à bulles",
+        "prompt": "<p>Après un passage croissant de gauche à droite sur <code>[3, 1, 4, 2]</code>, quelle liste obtient-on ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>[1, 2, 3, 4]</code></span>",
+          "<span class=\"option-text\"><code>[1, 3, 4, 2]</code></span>",
+          "<span class=\"option-text\"><code>[4, 3, 2, 1]</code></span>",
+          "<span class=\"option-text\"><code>[1, 3, 2, 4]</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p>On échange 3 et 1, on conserve 3 et 4, puis on échange 4 et 2. Le maximum 4 arrive à la fin.</p>",
+        "feedback": "<p>On échange 3 et 1, on conserve 3 et 4, puis on échange 4 et 2. Le maximum 4 arrive à la fin.</p>\n<p>A correspond au tri complet. B s’arrête avant le dernier échange. C correspond à l’ordre décroissant.</p>"
+      },
+      {
+        "title": "Un passage sans échange",
+        "prompt": "<p>Combien de passages la version optimisée du tri à bulles effectue-t-elle pour constater que <code>[1, 2, 3, 4]</code> est déjà triée ?</p>",
+        "options": [
+          "<span class=\"option-text\">0</span>",
+          "<span class=\"option-text\">1</span>",
+          "<span class=\"option-text\">3</span>",
+          "<span class=\"option-text\">4</span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>Un passage vérifie tous les voisins sans réaliser d’échange. Le booléen reste faux et <code>break</code> arrête les passages suivants.</p>",
+        "feedback": "<p>Un passage vérifie tous les voisins sans réaliser d’échange. Le booléen reste faux et <code>break</code> arrête les passages suivants.</p>\n<p>0 ne vérifie aucun couple. La version non optimisée ferait 3 passages. La longueur 4 n’est pas le nombre de passages requis ici.</p>"
+      }
+    ],
+    "conventions": "<ul><li><code>=</code> affecte ; <code>==</code> compare.</li><li>Les indices commencent à 0.</li><li>La borne finale de <code>range</code> est exclue.</li><li><code>%</code> donne le reste ; <code>//</code> donne le quotient arrondi vers le bas.</li></ul>",
+    "next": "../index.html",
+    "nextLabel": "Revenir aux cours"
   }
 };
