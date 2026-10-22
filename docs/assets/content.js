@@ -802,165 +802,223 @@ window.LEARNING_CONTENT = {
   },
   "algo03": {
     "title": "03 — Recherche et logique dans les listes",
-    "subtitle": "8 exercices pour aller plus loin",
+    "subtitle": "12 exercices progressifs pour approfondir",
     "slides": [
       {
         "title": "Rechercher dans une liste",
-        "html": "<p>Pour chaque exercice : (1) exécuter l’exemple, (2) expliquer les indices et bornes de boucle, (3) réaliser le problème sans consulter de solution, (4) comparer avec le résultat attendu, (5) tester un autre cas.</p>\n<p><strong>Contraintes :</strong> Python 3, boucles <code>for</code>, conditions, listes, indices, booléens ; sans fonction personnalisée, classe ni bibliothèque externe.</p>\n<p><strong>Attention :</strong> les exemples guident le raisonnement mais ne résolvent pas directement l’exercice.</p>",
+        "html": "<p>Ce chapitre s&#x27;appuie sur les acquis du chapitre 02. Il les applique à des problèmes nouveaux : comparer des voisins, analyser des groupes de plusieurs valeurs et chercher des motifs dans une liste.</p>\n<p>Les premiers exercices installent les raisonnements spécifiques à ce chapitre. Les suivants combinent progressivement plusieurs comparaisons et deux boucles.</p>\n<p><strong>Prérequis :</strong> parcourir une liste, utiliser <code>if</code>, des indices, <code>range</code>, un compteur et <code>append</code>.</p>\n<p><strong>Contraintes :</strong> Python 3 ; boucles et listes uniquement ; sans fonction personnalisée, classe ni bibliothèque externe. Pour les recherches de motifs, utiliser des boucles, même quand une tranche pourrait remplacer la boucle intérieure.</p>",
         "kind": "Méthode",
         "group": "Avant de commencer"
       },
       {
         "title": "Chiffres, tranches et fenêtres",
-        "html": "<p><code>str(nombre)</code> transforme un nombre en texte. <code>len()</code> compte les caractères de ce texte. Pour compter les chiffres, on utilise ici uniquement des entiers <strong>positifs ou nuls</strong> : le signe <code>-</code> compterait aussi comme un caractère.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>print(str(107))       # texte &quot;107&quot;\nprint(len(str(107)))  # 3 chiffres\nprint(len(str(0)))    # 1 chiffre</code></pre></div>\n<p>Une <strong>tranche</strong> <code>liste[debut:fin]</code> extrait les éléments de l&#x27;indice <code>debut</code> inclus à l&#x27;indice <code>fin</code> exclu.</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [9, 2, 3, 8]\nprint(valeurs[1:3])  # [2, 3]</code></pre></div>\n<p>Une <strong>fenêtre</strong> est un groupe d&#x27;éléments consécutifs que l&#x27;on examine à partir d&#x27;un indice. Dans les exercices de recherche, le <strong>motif est non vide</strong>. Les tranches sont expliquées pour lire l&#x27;exemple 07 ; sa solution doit utiliser des boucles.</p>",
+        "html": "<h3>Comparer des voisins</h3>\n<p>Pour examiner un élément et celui qui le suit, <code>i</code> doit s&#x27;arrêter avant le dernier indice :</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [4, 7, 2]\nfor i in range(len(values) - 1):\n    print(values[i], values[i + 1])</code></pre></div>\n<p>On compare les couples aux indices 0 et 1. Une liste de moins de deux valeurs ne donne aucun couple.</p>\n<h3>Examiner un groupe de trois</h3>\n<p>Pour accéder à <code>values[i]</code>, <code>values[i + 1]</code> et <code>values[i + 2]</code>, utiliser <code>range(len(values) - 2)</code>. Le dernier départ valide est <code>len(values) - 3</code>.</p>\n<h3>Chercher un motif dans des fenêtres</h3>\n<p>Une fenêtre est un groupe consécutif de valeurs. Si la liste contient <code>n</code> éléments et le motif <code>m</code> éléments, les départs valides sont parcourus avec <code>range(n - m + 1)</code>. Pour chaque départ, une deuxième boucle compare les valeurs correspondantes.</p>",
         "kind": "Repères",
         "group": "Avant de commencer"
       },
       {
-        "title": "Filtrer selon le nombre de chiffres",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [5, 23, 107, 84]\nfor i in range(len(valeurs)):\n    if len(str(valeurs[i])) == 2:\n        print(i, valeurs[i])</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Comparer les voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [3, 5, 5, 2]\nfor i in range(len(values) - 1):\n    if values[i] &lt; values[i + 1]:\n        print(i, &quot;rise&quot;)\n    elif values[i] == values[i + 1]:\n        print(i, &quot;equal&quot;)\n    else:\n        print(i, &quot;fall&quot;)</code></pre></div>\n<p>On décrit chaque couple selon l&#x27;ordre de ses deux valeurs.</p>",
         "kind": "Exemple 1",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Filtrer selon le nombre de chiffres",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [12, 345, 7, 890, 45, 1002, 678]\nlongueur = 3</code></pre></div>\n<p>Construire une liste de couples <code>[indice, valeur]</code> pour les entiers positifs ou nuls ayant exactement <code>longueur</code> chiffres. Utiliser <code>range(len(...))</code> et <code>append()</code>.</p>\n<p><strong>Résultat attendu :</strong> <code>[[1, 345], [3, 890], [6, 678]]</code></p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Comparer les voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [4, 2, 2, 7, 5]</code></pre></div>\n<p>Afficher l&#x27;indice de départ et l&#x27;étiquette <code>rise</code>, <code>equal</code> ou <code>fall</code> pour chaque couple de voisins.</p>\n<p><strong>Résultat attendu :</strong> <code>0 fall</code>, <code>1 equal</code>, <code>2 rise</code>, <code>3 fall</code>.</p>\n<p><strong>Pour avancer :</strong></p>\n<ol><li>Écrire la boucle jusqu&#x27;à <code>len(values) - 1</code> exclu.</li><li>Comparer <code>values[i]</code> à <code>values[i + 1]</code>.</li><li>Utiliser <code>if</code>, <code>elif</code> et <code>else</code> pour distinguer les trois cas.</li></ol>",
         "kind": "Exercice 1",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Retrouver des couples voisins",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [4, 8, 3, 8, 3]\nfor i in range(len(valeurs) - 1):\n    if valeurs[i] == 8 and valeurs[i + 1] == 3:\n        print(i)</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Trouver un couple précis",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [4, 8, 3, 8, 3]\nfor i in range(len(values) - 1):\n    if values[i] == 8 and values[i + 1] == 3:\n        print(i)</code></pre></div>\n<p>Les deux comparaisons doivent être vraies au même indice de départ.</p>",
         "kind": "Exemple 2",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Retrouver des couples voisins",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [2, 5, 7, 5, 7, 3, 5, 7]\na = 5\nb = 7</code></pre></div>\n<p>Enregistrer dans une liste les indices de départ de chaque couple consécutif <code>[a, b]</code>.</p>\n<p><strong>Résultat attendu :</strong> <code>[1, 3, 6]</code></p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Trouver un couple précis",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [2, 5, 7, 5, 7, 3, 5, 7]\nfirst = 5\nsecond = 7</code></pre></div>\n<p>Créer une liste des indices où <code>first</code> est immédiatement suivi de <code>second</code>.</p>\n<p><strong>Résultat attendu :</strong> <code>[1, 3, 6]</code>.</p>\n<p><strong>Pour avancer :</strong> créer une liste vide, tester les deux voisins avec <code>and</code>, puis ajouter <code>i</code> quand les deux valeurs conviennent.</p>",
         "kind": "Exercice 2",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Rechercher une séquence complète",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [9, 2, 3, 8]\nmotif = [2, 3]\nfor i in range(len(valeurs) - len(motif) + 1):\n    identique = True\n    for j in range(len(motif)):\n        if valeurs[i + j] != motif[j]:\n            identique = False\n    if identique:\n        print(i)</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Compter les doublons voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [1, 1, 2, 3, 3]\ncount = 0\nfor i in range(len(values) - 1):\n    if values[i] == values[i + 1]:\n        count += 1\nprint(count)  # 2</code></pre></div>\n<p>Chaque couple égal compte une fois. Trois valeurs égales de suite forment donc deux couples.</p>",
         "kind": "Exemple 3",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Rechercher une séquence complète",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [1, 2, 3, 1, 2, 3, 4, 1, 2, 3]\nmotif = [1, 2, 3]</code></pre></div>\n<p>Trouver toutes les positions où le motif apparaît complètement. Utiliser deux boucles et un booléen.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 3, 7]</code></p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Compter les doublons voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [4, 4, 4, 2, 5, 5, 1, 1, 1]</code></pre></div>\n<p>Compter tous les couples de voisins égaux. Afficher également leurs indices de départ.</p>\n<p><strong>Résultat attendu :</strong> indices <code>[0, 1, 4, 6, 7]</code> et total <code>5</code>.</p>\n<p><strong>Pour avancer :</strong> garder une liste d&#x27;indices et un compteur ; mettre à jour les deux dans la même condition.</p>",
         "kind": "Exercice 3",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Détecter les triples croissants",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [3, 6, 9, 4]\nfor i in range(len(valeurs) - 2):\n    if valeurs[i] &lt; valeurs[i + 1] &lt; valeurs[i + 2]:\n        print(i)</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Reconnaître un triple croissant",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [3, 6, 9, 4]\nfor i in range(len(values) - 2):\n    if values[i] &lt; values[i + 1] &lt; values[i + 2]:\n        print(i)</code></pre></div>\n<p>Deux comparaisons strictes valident un groupe de trois. Une égalité ne constitue pas une hausse stricte.</p>",
         "kind": "Exemple 4",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Détecter les triples croissants",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>valeurs = [3, 5, 8, 2, 4, 6, 9, 1, 3]</code></pre></div>\n<p>Construire une liste de <code>[indice, [x, y, z]]</code> pour chaque groupe de trois valeurs consécutives strictement croissantes.</p>\n<p><strong>Résultat attendu :</strong> <code>[[0, [3, 5, 8]], [3, [2, 4, 6]], [4, [4, 6, 9]]]</code></p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Reconnaître un triple croissant",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [3, 5, 8, 2, 4, 6, 9, 1, 3]</code></pre></div>\n<p>Créer une liste de couples <code>[indice, [x, y, z]]</code> pour tous les triples strictement croissants.</p>\n<p><strong>Résultat attendu :</strong> <code>[[0, [3, 5, 8]], [3, [2, 4, 6]], [4, [4, 6, 9]]]</code>.</p>\n<p><strong>Pour avancer :</strong> calculer les trois valeurs à partir de <code>i</code> ; tester les deux relations ; ajouter l&#x27;indice et les trois valeurs ensemble.</p>",
         "kind": "Exercice 4",
-        "group": "01 · Parcourir et comparer"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Compter les changements de signe",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>mesures = [-2, 3, -1]\nfor i in range(len(mesures) - 1):\n    if mesures[i] &lt; 0 and mesures[i + 1] &gt; 0:\n        print(&#x27;négatif vers positif&#x27;, i)</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Repérer le plus grand au milieu",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [2, 7, 4]\nif values[0] &lt; values[1] and values[1] &gt; values[2]:\n    print(&quot;middle peak&quot;)</code></pre></div>\n<p>La valeur centrale est ici supérieure à ses deux voisins.</p>",
         "kind": "Exemple 5",
-        "group": "02 · Compter et reconnaître"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Compter les changements de signe",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>mesures = [-3, 2, 4, -1, 0, 5, -2, -1, 3]</code></pre></div>\n<p>Trouver les indices où deux valeurs consécutives sont de signes opposés stricts. Ignorer les passages impliquant zéro. Afficher les indices et le nombre total.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 2, 5, 7]</code> (4 changements de signe).</p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Repérer le plus grand au milieu",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [2, 7, 4, 3, 8, 5, 1]</code></pre></div>\n<p>Parcourir les triples voisins et enregistrer <code>[indice, valeur centrale]</code> lorsque la valeur centrale est strictement supérieure aux deux autres.</p>\n<p><strong>Résultat attendu :</strong> <code>[[0, 7], [3, 8]]</code>.</p>\n<p><strong>Pour avancer :</strong> un triple valide commence avant les deux derniers indices ; tester séparément que le milieu est supérieur à gauche et à droite.</p>\n<h3>Partie 2 — Chercher des motifs</h3>",
         "kind": "Exercice 5",
-        "group": "02 · Compter et reconnaître"
+        "group": "01 · Couples et triples voisins"
       },
       {
-        "title": "Repérer les doublons consécutifs",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [1, 1, 2, 3, 3]\nfor i in range(len(nombres) - 1):\n    if nombres[i] == nombres[i + 1]:\n        print(i)</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Repérer un motif de deux valeurs",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [2, 4, 2, 5]\npattern = [2, 4]\nfor i in range(len(values) - len(pattern) + 1):\n    if values[i] == pattern[0] and values[i + 1] == pattern[1]:\n        print(i)</code></pre></div>\n<p>On teste seulement les départs qui laissent assez de place au motif.</p>",
         "kind": "Exemple 6",
-        "group": "02 · Compter et reconnaître"
+        "group": "02 · Motifs et fenêtres"
       },
       {
-        "title": "Repérer les doublons consécutifs",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>nombres = [4, 4, 4, 2, 5, 5, 1, 1, 1]</code></pre></div>\n<p>Afficher les indices où deux éléments voisins sont égaux, puis compter les couples. Un groupe de trois valeurs identiques forme deux couples voisins.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 1, 4, 6, 7]</code> et <code>5</code> couples.</p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Repérer un motif de deux valeurs",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [3, 1, 3, 1, 3, 2]\npattern = [3, 1]</code></pre></div>\n<p>Construire la liste des indices où apparaît le motif complet.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 2]</code>.</p>\n<p><strong>Pour avancer :</strong> créer la liste de résultats ; le dernier départ possible vaut <code>len(values) - len(pattern)</code> ; ajouter chaque départ correspondant.</p>",
         "kind": "Exercice 6",
-        "group": "02 · Compter et reconnaître"
+        "group": "02 · Motifs et fenêtres"
       },
       {
-        "title": "Trouver un motif avec chevauchement",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>donnees = [1, 1, 1]\nmotif = [1, 1]\nfor i in range(len(donnees) - len(motif) + 1):\n    if donnees[i:i + len(motif)] == motif:\n        print(i)</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>i</code>, les limites de <code>range()</code> et les comparaisons réalisées.</p>",
+        "title": "Comparer un motif de trois valeurs",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [9, 2, 3, 8]\npattern = [2, 3]\nfor i in range(len(values) - len(pattern) + 1):\n    matches = True\n    for j in range(len(pattern)):\n        if values[i + j] != pattern[j]:\n            matches = False\n    if matches:\n        print(i)</code></pre></div>\n<p><code>i</code> choisit une fenêtre ; <code>j</code> compare les positions à l&#x27;intérieur du motif.</p>",
         "kind": "Exemple 7",
-        "group": "02 · Compter et reconnaître"
+        "group": "02 · Motifs et fenêtres"
       },
       {
-        "title": "Trouver un motif avec chevauchement",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>donnees = [2, 4, 2, 4, 2, 5, 2, 4, 2, 4]\nmotif = [2, 4, 2]</code></pre></div>\n<p>Retrouver toutes les positions du motif <strong>sans utiliser de tranches <code>[:]</code> dans votre solution</strong>. Accepter les motifs qui se chevauchent.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 2, 6]</code></p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Comparer un motif de trois valeurs",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [1, 2, 3, 1, 2, 3, 4, 1, 2, 3]\npattern = [1, 2, 3]</code></pre></div>\n<p>Trouver tous les départs où le motif apparaît. Utiliser deux boucles et un booléen ; ne pas utiliser de tranche.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 3, 7]</code>.</p>\n<p><strong>Pour avancer :</strong> pour chaque <code>i</code>, initialiser <code>matches = True</code> ; comparer <code>values[i + j]</code> avec <code>pattern[j]</code> ; mémoriser le départ si toutes les positions correspondent.</p>",
         "kind": "Exercice 7",
-        "group": "02 · Compter et reconnaître"
+        "group": "02 · Motifs et fenêtres"
       },
       {
-        "title": "Autoriser une erreur dans un motif",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>donnees = [1, 2, 4]\nmotif = [1, 2, 3]\ndifferences = 0\nfor j in range(len(motif)):\n    if donnees[j] != motif[j]:\n        differences += 1\nprint(differences)  # 1</code></pre></div>\n<p><strong>À observer :</strong> le rôle de <code>j</code>, la comparaison des valeurs à la même position et l&#x27;incrémentation de <code>differences</code>.</p>",
+        "title": "Ne pas manquer les chevauchements",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [1, 1, 1]\npattern = [1, 1]\nfor i in range(len(values) - len(pattern) + 1):\n    if values[i] == pattern[0] and values[i + 1] == pattern[1]:\n        print(i)</code></pre></div>\n<p>Les départs 0 et 1 sont tous les deux testés : les motifs partagent une valeur.</p>",
         "kind": "Exemple 8",
-        "group": "02 · Compter et reconnaître"
+        "group": "02 · Motifs et fenêtres"
       },
       {
-        "title": "Autoriser une erreur dans un motif",
-        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>donnees = [1, 2, 3, 1, 2, 4, 1, 5, 3, 1, 2, 3]\nmotif = [1, 2, 3]</code></pre></div>\n<p>Pour chaque fenêtre de même taille que le motif, compter les différences. Enregistrer <code>[indice, differences]</code> seulement s’il y a au plus une différence.</p>\n<p><strong>Résultat attendu :</strong> <code>[[0, 0], [3, 1], [6, 1], [9, 0]]</code></p>\n<p><strong>À vérifier :</strong> un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l&#x27;exercice).</p>",
+        "title": "Ne pas manquer les chevauchements",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [2, 4, 2, 4, 2, 5, 2, 4, 2, 4]\npattern = [2, 4, 2]</code></pre></div>\n<p>Trouver tous les départs du motif avec deux boucles. Accepter les chevauchements.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 2, 6]</code>.</p>\n<p><strong>Pour avancer :</strong> avancer <code>i</code> d&#x27;une seule position après chaque essai, même après une correspondance ; la boucle de <code>j</code> vérifie les trois valeurs.</p>",
         "kind": "Exercice 8",
-        "group": "02 · Compter et reconnaître"
+        "group": "02 · Motifs et fenêtres"
+      },
+      {
+        "title": "Compter les différences dans une fenêtre",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>window = [1, 2, 4]\npattern = [1, 2, 3]\ndifferences = 0\nfor j in range(len(pattern)):\n    if window[j] != pattern[j]:\n        differences += 1\nprint(differences)  # 1</code></pre></div>\n<p>Cette étape compare une seule fenêtre à un motif et compte les positions différentes.</p>",
+        "kind": "Exemple 9",
+        "group": "02 · Motifs et fenêtres"
+      },
+      {
+        "title": "Compter les différences dans une fenêtre",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>window = [3, 5, 8, 9]\npattern = [3, 6, 8, 9]</code></pre></div>\n<p>Compter le nombre de différences entre cette fenêtre et le motif.</p>\n<p><strong>Résultat attendu :</strong> <code>1</code>.</p>\n<p><strong>Pour avancer :</strong> les longueurs sont égales ; comparer les valeurs aux mêmes indices et incrémenter le compteur pour chaque inégalité.</p>",
+        "kind": "Exercice 9",
+        "group": "02 · Motifs et fenêtres"
+      },
+      {
+        "title": "Tester chaque fenêtre avec une erreur permise",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [1, 2, 3, 1, 2, 4]\npattern = [1, 2, 3]\nfor i in range(len(values) - len(pattern) + 1):\n    differences = 0\n    for j in range(len(pattern)):\n        if values[i + j] != pattern[j]:\n            differences += 1\n    if differences &lt;= 1:\n        print(i, differences)</code></pre></div>\n<p>Le compteur est remis à zéro pour chaque nouvelle fenêtre. On accepte zéro ou une différence.</p>",
+        "kind": "Exemple 10",
+        "group": "02 · Motifs et fenêtres"
+      },
+      {
+        "title": "Tester chaque fenêtre avec une erreur permise",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>values = [1, 2, 3, 1, 2, 4, 1, 5, 3, 1, 2, 3]\npattern = [1, 2, 3]</code></pre></div>\n<p>Enregistrer <code>[indice, differences]</code> pour chaque fenêtre qui contient au plus une différence.</p>\n<p><strong>Résultat attendu :</strong> <code>[[0, 0], [3, 1], [6, 1], [9, 0]]</code>.</p>\n<p><strong>Pour avancer :</strong> parcourir les départs possibles ; pour chacun, compter ses différences dans une boucle intérieure ; enregistrer seulement après la comparaison complète.</p>\n<h3>Partie 3 — Analyser les changements de signe</h3>",
+        "kind": "Exercice 10",
+        "group": "02 · Motifs et fenêtres"
+      },
+      {
+        "title": "Distinguer les deux sens du changement",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>measurements = [-2, 3, -1]\nfor i in range(len(measurements) - 1):\n    if measurements[i] &lt; 0 and measurements[i + 1] &gt; 0:\n        print(&quot;negative to positive&quot;, i)</code></pre></div>\n<p>Cet exemple reconnaît un seul sens. Pour analyser toutes les inversions, il faut tester les deux ordres.</p>",
+        "kind": "Exemple 11",
+        "group": "03 · Changements de signe"
+      },
+      {
+        "title": "Distinguer les deux sens du changement",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>measurements = [-3, 2, 4, -1, 0, 5, -2, -1, 3]</code></pre></div>\n<p>Enregistrer les indices où deux voisins sont de signes opposés stricts, dans les deux sens. Ignorer les couples contenant zéro. Afficher les indices et leur nombre.</p>\n<p><strong>Résultat attendu :</strong> <code>[0, 2, 5, 7]</code> et <code>4</code> changements.</p>\n<p><strong>Pour avancer :</strong> un sens est négatif puis positif ; l&#x27;autre est positif puis négatif. Combiner ces cas avec <code>or</code> ; zéro ne satisfait aucun des tests stricts.</p>",
+        "kind": "Exercice 11",
+        "group": "03 · Changements de signe"
+      },
+      {
+        "title": "Faire le bilan des voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>measurements = [2, 5, 1]\nrises = 0\nfalls = 0\nfor i in range(len(measurements) - 1):\n    if measurements[i] &lt; measurements[i + 1]:\n        rises += 1\n    elif measurements[i] &gt; measurements[i + 1]:\n        falls += 1\nprint(rises, falls)  # 1 1</code></pre></div>\n<p>Chaque couple contribue à une seule catégorie ; une égalité ne compte ni comme hausse ni comme baisse.</p>",
+        "kind": "Exemple 12",
+        "group": "03 · Changements de signe"
+      },
+      {
+        "title": "Faire le bilan des voisins",
+        "html": "<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>measurements = [3, 3, -2, 4, 0, -1, -1, 5]</code></pre></div>\n<p>Compter les hausses, les baisses, les égalités et les changements de signe stricts. Afficher les quatre totaux dans cet ordre.</p>\n<p><strong>Résultat attendu :</strong> <code>3 2 2 3</code>.</p>\n<p><strong>Pour avancer :</strong> parcourir les couples une seule fois ; classer chaque relation ; compter un changement de signe uniquement si les deux valeurs sont strictement de signes contraires.</p>",
+        "kind": "Exercice 12",
+        "group": "03 · Changements de signe"
       }
     ],
     "next": "../revision/04_flashcards.html",
     "nextLabel": "Réviser avec les flashcards",
-    "source": "# TP Python — Recherche et logique dans les listes\n\n**Bachelor 1 · Niveau intermédiaire · 8 exercices**\n\n## Méthode\n\nPour chaque exercice : (1) exécuter l’exemple, (2) expliquer les indices et bornes de boucle, (3) réaliser le problème sans consulter de solution, (4) comparer avec le résultat attendu, (5) tester un autre cas.\n\n**Contraintes :** Python 3, boucles `for`, conditions, listes, indices, booléens ; sans fonction personnalisée, classe ni bibliothèque externe.\n\n**Attention :** les exemples guident le raisonnement mais ne résolvent pas directement l’exercice.\n\n## Repères avant de commencer\n\n`str(nombre)` transforme un nombre en texte. `len()` compte les caractères de ce texte. Pour compter les chiffres, on utilise ici uniquement des entiers **positifs ou nuls** : le signe `-` compterait aussi comme un caractère.\n\n```python\nprint(str(107))       # texte \"107\"\nprint(len(str(107)))  # 3 chiffres\nprint(len(str(0)))    # 1 chiffre\n```\n\nUne **tranche** `liste[debut:fin]` extrait les éléments de l'indice `debut` inclus à l'indice `fin` exclu.\n\n```python\nvaleurs = [9, 2, 3, 8]\nprint(valeurs[1:3])  # [2, 3]\n```\n\nUne **fenêtre** est un groupe d'éléments consécutifs que l'on examine à partir d'un indice. Dans les exercices de recherche, le **motif est non vide**. Les tranches sont expliquées pour lire l'exemple 07 ; sa solution doit utiliser des boucles.\n\n---\n\n## Exercice 01 — Filtrer selon le nombre de chiffres\n\n### Exemple expliqué\n\n```python\nvaleurs = [5, 23, 107, 84]\nfor i in range(len(valeurs)):\n    if len(str(valeurs[i])) == 2:\n        print(i, valeurs[i])\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\nnombres = [12, 345, 7, 890, 45, 1002, 678]\nlongueur = 3\n```\n\nConstruire une liste de couples `[indice, valeur]` pour les entiers positifs ou nuls ayant exactement `longueur` chiffres. Utiliser `range(len(...))` et `append()`.\n\n**Résultat attendu :** `[[1, 345], [3, 890], [6, 678]]`\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 02 — Retrouver des couples voisins\n\n### Exemple expliqué\n\n```python\nvaleurs = [4, 8, 3, 8, 3]\nfor i in range(len(valeurs) - 1):\n    if valeurs[i] == 8 and valeurs[i + 1] == 3:\n        print(i)\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\nvaleurs = [2, 5, 7, 5, 7, 3, 5, 7]\na = 5\nb = 7\n```\n\nEnregistrer dans une liste les indices de départ de chaque couple consécutif `[a, b]`.\n\n**Résultat attendu :** `[1, 3, 6]`\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 03 — Rechercher une séquence complète\n\n### Exemple expliqué\n\n```python\nvaleurs = [9, 2, 3, 8]\nmotif = [2, 3]\nfor i in range(len(valeurs) - len(motif) + 1):\n    identique = True\n    for j in range(len(motif)):\n        if valeurs[i + j] != motif[j]:\n            identique = False\n    if identique:\n        print(i)\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\nvaleurs = [1, 2, 3, 1, 2, 3, 4, 1, 2, 3]\nmotif = [1, 2, 3]\n```\n\nTrouver toutes les positions où le motif apparaît complètement. Utiliser deux boucles et un booléen.\n\n**Résultat attendu :** `[0, 3, 7]`\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 04 — Détecter les triples croissants\n\n### Exemple expliqué\n\n```python\nvaleurs = [3, 6, 9, 4]\nfor i in range(len(valeurs) - 2):\n    if valeurs[i] < valeurs[i + 1] < valeurs[i + 2]:\n        print(i)\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\nvaleurs = [3, 5, 8, 2, 4, 6, 9, 1, 3]\n```\n\nConstruire une liste de `[indice, [x, y, z]]` pour chaque groupe de trois valeurs consécutives strictement croissantes.\n\n**Résultat attendu :** `[[0, [3, 5, 8]], [3, [2, 4, 6]], [4, [4, 6, 9]]]`\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 05 — Compter les changements de signe\n\n### Exemple expliqué\n\n```python\nmesures = [-2, 3, -1]\nfor i in range(len(mesures) - 1):\n    if mesures[i] < 0 and mesures[i + 1] > 0:\n        print('négatif vers positif', i)\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\nmesures = [-3, 2, 4, -1, 0, 5, -2, -1, 3]\n```\n\nTrouver les indices où deux valeurs consécutives sont de signes opposés stricts. Ignorer les passages impliquant zéro. Afficher les indices et le nombre total.\n\n**Résultat attendu :** `[0, 2, 5, 7]` (4 changements de signe).\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 06 — Repérer les doublons consécutifs\n\n### Exemple expliqué\n\n```python\nnombres = [1, 1, 2, 3, 3]\nfor i in range(len(nombres) - 1):\n    if nombres[i] == nombres[i + 1]:\n        print(i)\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\nnombres = [4, 4, 4, 2, 5, 5, 1, 1, 1]\n```\n\nAfficher les indices où deux éléments voisins sont égaux, puis compter les couples. Un groupe de trois valeurs identiques forme deux couples voisins.\n\n**Résultat attendu :** `[0, 1, 4, 6, 7]` et `5` couples.\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 07 — Trouver un motif avec chevauchement\n\n### Exemple expliqué\n\n```python\ndonnees = [1, 1, 1]\nmotif = [1, 1]\nfor i in range(len(donnees) - len(motif) + 1):\n    if donnees[i:i + len(motif)] == motif:\n        print(i)\n```\n\n**À observer :** le rôle de `i`, les limites de `range()` et les comparaisons réalisées.\n\n### Énoncé\n\n```python\ndonnees = [2, 4, 2, 4, 2, 5, 2, 4, 2, 4]\nmotif = [2, 4, 2]\n```\n\nRetrouver toutes les positions du motif **sans utiliser de tranches `[:]` dans votre solution**. Accepter les motifs qui se chevauchent.\n\n**Résultat attendu :** `[0, 2, 6]`\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n\n---\n\n## Exercice 08 — Autoriser une erreur dans un motif\n\n### Exemple expliqué\n\n```python\ndonnees = [1, 2, 4]\nmotif = [1, 2, 3]\ndifferences = 0\nfor j in range(len(motif)):\n    if donnees[j] != motif[j]:\n        differences += 1\nprint(differences)  # 1\n```\n\n**À observer :** le rôle de `j`, la comparaison des valeurs à la même position et l'incrémentation de `differences`.\n\n### Énoncé\n\n```python\ndonnees = [1, 2, 3, 1, 2, 4, 1, 5, 3, 1, 2, 3]\nmotif = [1, 2, 3]\n```\n\nPour chaque fenêtre de même taille que le motif, compter les différences. Enregistrer `[indice, differences]` seulement s’il y a au plus une différence.\n\n**Résultat attendu :** `[[0, 0], [3, 1], [6, 1], [9, 0]]`\n\n**À vérifier :** un cas usuel et un cas limite (liste courte, aucune correspondance ou chevauchement selon l'exercice).\n",
+    "source": "# TP Python — Recherche et logique dans les listes\n\n**Bachelor 1 · Approfondissement progressif · 12 exercices**\n\n## Méthode\n\nCe chapitre s'appuie sur les acquis du chapitre 02. Il les applique à des problèmes nouveaux : comparer des voisins, analyser des groupes de plusieurs valeurs et chercher des motifs dans une liste.\n\nLes premiers exercices installent les raisonnements spécifiques à ce chapitre. Les suivants combinent progressivement plusieurs comparaisons et deux boucles.\n\n**Prérequis :** parcourir une liste, utiliser `if`, des indices, `range`, un compteur et `append`.\n\n**Contraintes :** Python 3 ; boucles et listes uniquement ; sans fonction personnalisée, classe ni bibliothèque externe. Pour les recherches de motifs, utiliser des boucles, même quand une tranche pourrait remplacer la boucle intérieure.\n\n## Repères avant de commencer\n\n### Comparer des voisins\n\nPour examiner un élément et celui qui le suit, `i` doit s'arrêter avant le dernier indice :\n\n```python\nvalues = [4, 7, 2]\nfor i in range(len(values) - 1):\n    print(values[i], values[i + 1])\n```\n\nOn compare les couples aux indices 0 et 1. Une liste de moins de deux valeurs ne donne aucun couple.\n\n### Examiner un groupe de trois\n\nPour accéder à `values[i]`, `values[i + 1]` et `values[i + 2]`, utiliser `range(len(values) - 2)`. Le dernier départ valide est `len(values) - 3`.\n\n### Chercher un motif dans des fenêtres\n\nUne fenêtre est un groupe consécutif de valeurs. Si la liste contient `n` éléments et le motif `m` éléments, les départs valides sont parcourus avec `range(n - m + 1)`. Pour chaque départ, une deuxième boucle compare les valeurs correspondantes.\n\n---\n\n## Partie 1 — Couples et triples voisins\n\n## Exercice 01 — Comparer les voisins\n\n### Exemple expliqué\n\n```python\nvalues = [3, 5, 5, 2]\nfor i in range(len(values) - 1):\n    if values[i] < values[i + 1]:\n        print(i, \"rise\")\n    elif values[i] == values[i + 1]:\n        print(i, \"equal\")\n    else:\n        print(i, \"fall\")\n```\n\nOn décrit chaque couple selon l'ordre de ses deux valeurs.\n\n### Énoncé\n\n```python\nvalues = [4, 2, 2, 7, 5]\n```\n\nAfficher l'indice de départ et l'étiquette `rise`, `equal` ou `fall` pour chaque couple de voisins.\n\n**Résultat attendu :** `0 fall`, `1 equal`, `2 rise`, `3 fall`.\n\n**Pour avancer :**\n\n1. Écrire la boucle jusqu'à `len(values) - 1` exclu.\n2. Comparer `values[i]` à `values[i + 1]`.\n3. Utiliser `if`, `elif` et `else` pour distinguer les trois cas.\n\n## Exercice 02 — Trouver un couple précis\n\n### Exemple expliqué\n\n```python\nvalues = [4, 8, 3, 8, 3]\nfor i in range(len(values) - 1):\n    if values[i] == 8 and values[i + 1] == 3:\n        print(i)\n```\n\nLes deux comparaisons doivent être vraies au même indice de départ.\n\n### Énoncé\n\n```python\nvalues = [2, 5, 7, 5, 7, 3, 5, 7]\nfirst = 5\nsecond = 7\n```\n\nCréer une liste des indices où `first` est immédiatement suivi de `second`.\n\n**Résultat attendu :** `[1, 3, 6]`.\n\n**Pour avancer :** créer une liste vide, tester les deux voisins avec `and`, puis ajouter `i` quand les deux valeurs conviennent.\n\n## Exercice 03 — Compter les doublons voisins\n\n### Exemple expliqué\n\n```python\nvalues = [1, 1, 2, 3, 3]\ncount = 0\nfor i in range(len(values) - 1):\n    if values[i] == values[i + 1]:\n        count += 1\nprint(count)  # 2\n```\n\nChaque couple égal compte une fois. Trois valeurs égales de suite forment donc deux couples.\n\n### Énoncé\n\n```python\nvalues = [4, 4, 4, 2, 5, 5, 1, 1, 1]\n```\n\nCompter tous les couples de voisins égaux. Afficher également leurs indices de départ.\n\n**Résultat attendu :** indices `[0, 1, 4, 6, 7]` et total `5`.\n\n**Pour avancer :** garder une liste d'indices et un compteur ; mettre à jour les deux dans la même condition.\n\n## Exercice 04 — Reconnaître un triple croissant\n\n### Exemple expliqué\n\n```python\nvalues = [3, 6, 9, 4]\nfor i in range(len(values) - 2):\n    if values[i] < values[i + 1] < values[i + 2]:\n        print(i)\n```\n\nDeux comparaisons strictes valident un groupe de trois. Une égalité ne constitue pas une hausse stricte.\n\n### Énoncé\n\n```python\nvalues = [3, 5, 8, 2, 4, 6, 9, 1, 3]\n```\n\nCréer une liste de couples `[indice, [x, y, z]]` pour tous les triples strictement croissants.\n\n**Résultat attendu :** `[[0, [3, 5, 8]], [3, [2, 4, 6]], [4, [4, 6, 9]]]`.\n\n**Pour avancer :** calculer les trois valeurs à partir de `i` ; tester les deux relations ; ajouter l'indice et les trois valeurs ensemble.\n\n## Exercice 05 — Repérer le plus grand au milieu\n\n### Exemple expliqué\n\n```python\nvalues = [2, 7, 4]\nif values[0] < values[1] and values[1] > values[2]:\n    print(\"middle peak\")\n```\n\nLa valeur centrale est ici supérieure à ses deux voisins.\n\n### Énoncé\n\n```python\nvalues = [2, 7, 4, 3, 8, 5, 1]\n```\n\nParcourir les triples voisins et enregistrer `[indice, valeur centrale]` lorsque la valeur centrale est strictement supérieure aux deux autres.\n\n**Résultat attendu :** `[[0, 7], [3, 8]]`.\n\n**Pour avancer :** un triple valide commence avant les deux derniers indices ; tester séparément que le milieu est supérieur à gauche et à droite.\n\n---\n\n## Partie 2 — Chercher des motifs\n\n## Exercice 06 — Repérer un motif de deux valeurs\n\n### Exemple expliqué\n\n```python\nvalues = [2, 4, 2, 5]\npattern = [2, 4]\nfor i in range(len(values) - len(pattern) + 1):\n    if values[i] == pattern[0] and values[i + 1] == pattern[1]:\n        print(i)\n```\n\nOn teste seulement les départs qui laissent assez de place au motif.\n\n### Énoncé\n\n```python\nvalues = [3, 1, 3, 1, 3, 2]\npattern = [3, 1]\n```\n\nConstruire la liste des indices où apparaît le motif complet.\n\n**Résultat attendu :** `[0, 2]`.\n\n**Pour avancer :** créer la liste de résultats ; le dernier départ possible vaut `len(values) - len(pattern)` ; ajouter chaque départ correspondant.\n\n## Exercice 07 — Comparer un motif de trois valeurs\n\n### Exemple expliqué\n\n```python\nvalues = [9, 2, 3, 8]\npattern = [2, 3]\nfor i in range(len(values) - len(pattern) + 1):\n    matches = True\n    for j in range(len(pattern)):\n        if values[i + j] != pattern[j]:\n            matches = False\n    if matches:\n        print(i)\n```\n\n`i` choisit une fenêtre ; `j` compare les positions à l'intérieur du motif.\n\n### Énoncé\n\n```python\nvalues = [1, 2, 3, 1, 2, 3, 4, 1, 2, 3]\npattern = [1, 2, 3]\n```\n\nTrouver tous les départs où le motif apparaît. Utiliser deux boucles et un booléen ; ne pas utiliser de tranche.\n\n**Résultat attendu :** `[0, 3, 7]`.\n\n**Pour avancer :** pour chaque `i`, initialiser `matches = True` ; comparer `values[i + j]` avec `pattern[j]` ; mémoriser le départ si toutes les positions correspondent.\n\n## Exercice 08 — Ne pas manquer les chevauchements\n\n### Exemple expliqué\n\n```python\nvalues = [1, 1, 1]\npattern = [1, 1]\nfor i in range(len(values) - len(pattern) + 1):\n    if values[i] == pattern[0] and values[i + 1] == pattern[1]:\n        print(i)\n```\n\nLes départs 0 et 1 sont tous les deux testés : les motifs partagent une valeur.\n\n### Énoncé\n\n```python\nvalues = [2, 4, 2, 4, 2, 5, 2, 4, 2, 4]\npattern = [2, 4, 2]\n```\n\nTrouver tous les départs du motif avec deux boucles. Accepter les chevauchements.\n\n**Résultat attendu :** `[0, 2, 6]`.\n\n**Pour avancer :** avancer `i` d'une seule position après chaque essai, même après une correspondance ; la boucle de `j` vérifie les trois valeurs.\n\n## Exercice 09 — Compter les différences dans une fenêtre\n\n### Exemple expliqué\n\n```python\nwindow = [1, 2, 4]\npattern = [1, 2, 3]\ndifferences = 0\nfor j in range(len(pattern)):\n    if window[j] != pattern[j]:\n        differences += 1\nprint(differences)  # 1\n```\n\nCette étape compare une seule fenêtre à un motif et compte les positions différentes.\n\n### Énoncé\n\n```python\nwindow = [3, 5, 8, 9]\npattern = [3, 6, 8, 9]\n```\n\nCompter le nombre de différences entre cette fenêtre et le motif.\n\n**Résultat attendu :** `1`.\n\n**Pour avancer :** les longueurs sont égales ; comparer les valeurs aux mêmes indices et incrémenter le compteur pour chaque inégalité.\n\n## Exercice 10 — Tester chaque fenêtre avec une erreur permise\n\n### Exemple expliqué\n\n```python\nvalues = [1, 2, 3, 1, 2, 4]\npattern = [1, 2, 3]\nfor i in range(len(values) - len(pattern) + 1):\n    differences = 0\n    for j in range(len(pattern)):\n        if values[i + j] != pattern[j]:\n            differences += 1\n    if differences <= 1:\n        print(i, differences)\n```\n\nLe compteur est remis à zéro pour chaque nouvelle fenêtre. On accepte zéro ou une différence.\n\n### Énoncé\n\n```python\nvalues = [1, 2, 3, 1, 2, 4, 1, 5, 3, 1, 2, 3]\npattern = [1, 2, 3]\n```\n\nEnregistrer `[indice, differences]` pour chaque fenêtre qui contient au plus une différence.\n\n**Résultat attendu :** `[[0, 0], [3, 1], [6, 1], [9, 0]]`.\n\n**Pour avancer :** parcourir les départs possibles ; pour chacun, compter ses différences dans une boucle intérieure ; enregistrer seulement après la comparaison complète.\n\n---\n\n## Partie 3 — Analyser les changements de signe\n\n## Exercice 11 — Distinguer les deux sens du changement\n\n### Exemple expliqué\n\n```python\nmeasurements = [-2, 3, -1]\nfor i in range(len(measurements) - 1):\n    if measurements[i] < 0 and measurements[i + 1] > 0:\n        print(\"negative to positive\", i)\n```\n\nCet exemple reconnaît un seul sens. Pour analyser toutes les inversions, il faut tester les deux ordres.\n\n### Énoncé\n\n```python\nmeasurements = [-3, 2, 4, -1, 0, 5, -2, -1, 3]\n```\n\nEnregistrer les indices où deux voisins sont de signes opposés stricts, dans les deux sens. Ignorer les couples contenant zéro. Afficher les indices et leur nombre.\n\n**Résultat attendu :** `[0, 2, 5, 7]` et `4` changements.\n\n**Pour avancer :** un sens est négatif puis positif ; l'autre est positif puis négatif. Combiner ces cas avec `or` ; zéro ne satisfait aucun des tests stricts.\n\n## Exercice 12 — Faire le bilan des voisins\n\n### Exemple expliqué\n\n```python\nmeasurements = [2, 5, 1]\nrises = 0\nfalls = 0\nfor i in range(len(measurements) - 1):\n    if measurements[i] < measurements[i + 1]:\n        rises += 1\n    elif measurements[i] > measurements[i + 1]:\n        falls += 1\nprint(rises, falls)  # 1 1\n```\n\nChaque couple contribue à une seule catégorie ; une égalité ne compte ni comme hausse ni comme baisse.\n\n### Énoncé\n\n```python\nmeasurements = [3, 3, -2, 4, 0, -1, -1, 5]\n```\n\nCompter les hausses, les baisses, les égalités et les changements de signe stricts. Afficher les quatre totaux dans cet ordre.\n\n**Résultat attendu :** `3 2 2 3`.\n\n**Pour avancer :** parcourir les couples une seule fois ; classer chaque relation ; compter un changement de signe uniquement si les deux valeurs sont strictement de signes contraires.\n",
     "sourceName": "03_algorithmique.md"
   },
   "flashcards": {
-    "title": "8 flashcards pour réviser",
-    "subtitle": "Recherche et logique dans les listes",
+    "title": "10 flashcards pour réviser le chapitre 03",
+    "subtitle": "Voisins, motifs et fenêtres",
     "cards": [
       {
-        "title": "Compter les chiffres",
-        "question": "<p>Que vaut <code>len(str(1002))</code> ? Et <code>len(str(0))</code> ?</p>",
-        "answer": "<p><strong>4 et 1.</strong> <code>str()</code> transforme le nombre en texte ; <code>len()</code> compte ses caractères. Zéro s&#x27;écrit avec un chiffre. Cette méthode suppose ici des entiers positifs ou nuls : pour un négatif, le signe <code>-</code> serait aussi compté.</p>"
+        "title": "Couples voisins",
+        "question": "<p>Pour comparer <code>values[i]</code> et <code>values[i + 1]</code>, pourquoi la boucle utilise-t-elle <code>range(len(values) - 1)</code> ?</p>",
+        "answer": "<p>Le dernier départ valide est <code>len(values) - 2</code>, dont le voisin est au dernier indice. La borne finale de <code>range</code> est exclue. Avec moins de deux éléments, aucun couple n&#x27;est comparé.</p>"
       },
       {
-        "title": "Comparer des voisins",
-        "question": "<p>Pourquoi utilise-t-on <code>range(len(valeurs) - 1)</code> pour comparer <code>valeurs[i]</code> et <code>valeurs[i + 1]</code> ?</p>",
-        "answer": "<p>Le dernier indice testé pour <code>i</code> doit être <strong><code>len(valeurs) - 2</code></strong> : son voisin est alors le dernier élément. <code>range</code> exclut sa borne finale. On évite ainsi un accès après la fin de la liste. Avec moins de deux éléments, la boucle ne fait aucun tour.</p>"
+        "title": "Indice de départ",
+        "question": "<p>Dans <code>values = [4, 8, 3]</code>, à quel indice commence le couple <code>[8, 3]</code> ?</p>",
+        "answer": "<p>À l&#x27;indice <code>1</code>. On mémorise l&#x27;indice de la première valeur du couple, pas sa valeur ni l&#x27;indice de la deuxième.</p>"
       },
       {
-        "title": "Chercher un motif complet",
-        "question": "<p>Dans une liste de 6 éléments, combien de positions de départ faut-il tester pour chercher un motif de 3 éléments ?</p>",
-        "answer": "<p><strong>4 positions : 0, 1, 2 et 3.</strong> La boucle est <code>range(6 - 3 + 1)</code>. Pour des longueurs <code>n</code> et <code>m</code>, on utilise <code>range(n - m + 1)</code>. Le <code>+ 1</code> permet de tester le dernier départ valide. Si le motif est plus long que la liste, aucun départ n&#x27;est testé.</p>"
+        "title": "Compter les triples croissants",
+        "question": "<p>Quel parcours permet de lire trois voisins avec les indices <code>i</code>, <code>i + 1</code> et <code>i + 2</code> ?</p>",
+        "answer": "<p><code>range(len(values) - 2)</code>. Pour un triple strictement croissant, vérifier <code>values[i] &lt; values[i + 1] &lt; values[i + 2]</code> ; une égalité ne convient pas.</p>"
       },
       {
-        "title": "Reconnaître un triple croissant",
-        "question": "<p>Les triples <code>[2, 4, 4]</code> et <code>[2, 4, 6]</code> sont-ils strictement croissants ? Quel test utiliser ?</p>",
-        "answer": "<p><strong>Seul <code>[2, 4, 6]</code> l&#x27;est.</strong> Le test <code>x &lt; y &lt; z</code> exige deux augmentations strictes ; une égalité ne convient pas. Pour comparer trois voisins sans sortir de la liste, parcourir <code>range(len(valeurs) - 2)</code>.</p>"
+        "title": "Chevauchement de doublons",
+        "question": "<p>Combien de couples égaux y a-t-il dans <code>[5, 5, 5]</code> ?</p>",
+        "answer": "<p>Deux, aux indices de départ 0 et 1. La valeur du milieu appartient aux deux couples ; les motifs consécutifs peuvent donc se chevaucher.</p>"
       },
       {
-        "title": "Détecter un changement de signe",
-        "question": "<p>Quels couples ont des signes opposés stricts : <code>[-2, 3]</code>, <code>[0, -4]</code>, <code>[5, -1]</code> ?</p>",
-        "answer": "<p><strong><code>[-2, 3]</code> et <code>[5, -1]</code>.</strong> Le test est <code>(a &lt; 0 and b &gt; 0) or (a &gt; 0 and b &lt; 0)</code>. Il couvre les deux sens du changement. Zéro n&#x27;est ni strictement positif ni strictement négatif : <code>[0, -4]</code> est exclu.</p>"
+        "title": "Départs possibles d'un motif",
+        "question": "<p>Combien de positions de départ faut-il examiner pour un motif de 3 valeurs dans une liste de 6 valeurs ?</p>",
+        "answer": "<p>Quatre départs : 0, 1, 2 et 3. La boucle utilise <code>range(6 - 3 + 1)</code>. Si le motif est plus long que la liste, aucun départ n&#x27;est possible.</p>"
       },
       {
-        "title": "Compter les doublons voisins",
-        "question": "<p>Combien de couples voisins égaux trouve-t-on dans <code>[4, 4, 4, 2]</code> ? À quels indices de départ ?</p>",
-        "answer": "<p><strong>2 couples, aux indices 0 et 1.</strong> On compare chaque élément à son voisin avec <code>valeurs[i] == valeurs[i + 1]</code>. Trois valeurs identiques consécutives forment deux couples : l&#x27;élément central participe aux deux.</p>"
+        "title": "Rôle des deux indices",
+        "question": "<p>Dans une recherche de motif, que représentent les indices <code>i</code> et <code>j</code> dans <code>values[i + j] == pattern[j]</code> ?</p>",
+        "answer": "<p><code>i</code> est le départ de la fenêtre dans la liste ; <code>j</code> est la position examinée à l&#x27;intérieur du motif. On utilise une boucle extérieure pour les départs et une boucle intérieure pour comparer les valeurs.</p>"
       },
       {
-        "title": "Accepter les chevauchements",
-        "question": "<p>Où apparaît le motif <code>[1, 1]</code> dans <code>[1, 1, 1]</code> ? Pourquoi ne pas avancer de la longueur du motif après une correspondance ?</p>",
-        "answer": "<p><strong>Aux indices 0 et 1.</strong> Les deux occurrences partagent un élément. Avancer de deux positions ferait manquer celle d&#x27;indice 1. Il faut tester chaque départ, puis comparer <code>donnees[i + j]</code> à <code>motif[j]</code> dans une boucle intérieure.</p>"
+        "title": "Garder le chevauchement",
+        "question": "<p>Où apparaît <code>[1, 1]</code> dans <code>[1, 1, 1]</code> ?</p>",
+        "answer": "<p>Aux départs 0 et 1. Après chaque essai, avancer le départ d&#x27;une seule position permet de ne pas manquer l&#x27;occurrence chevauchante.</p>"
       },
       {
-        "title": "Autoriser une différence",
-        "question": "<p>Pour comparer chaque fenêtre à un motif, où initialiser <code>differences = 0</code> et quel test accepte au plus une différence ?</p>",
-        "answer": "<p><strong>Au début de chaque fenêtre</strong>, avant la boucle qui compare ses éléments. Incrémenter le compteur à chaque inégalité, puis retenir la fenêtre si <code>differences &lt;= 1</code>. Cela accepte 0 ou 1 différence. Le compteur ne doit ni cumuler les fenêtres précédentes, ni être remis à zéro à chaque élément.</p>"
+        "title": "Réinitialiser les différences",
+        "question": "<p>Quand remettre <code>differences</code> à zéro lorsqu&#x27;on compare plusieurs fenêtres à un motif ?</p>",
+        "answer": "<p>Au début de chaque nouvelle fenêtre, avant la boucle intérieure. Ainsi, chaque fenêtre a son propre compte ; retenir celles qui vérifient <code>differences &lt;= 1</code> accepte zéro ou une différence.</p>"
+      },
+      {
+        "title": "Reconnaître un changement strict",
+        "question": "<p>Le couple <code>[0, -4]</code> constitue-t-il un changement de signe strict ? Pourquoi ?</p>",
+        "answer": "<p>Non. Zéro n&#x27;est ni positif ni négatif. Un changement strict exige un nombre négatif et un nombre positif, dans l&#x27;un ou l&#x27;autre ordre.</p>"
+      },
+      {
+        "title": "Classer des voisins",
+        "question": "<p>Comment distinguer une hausse, une baisse et une égalité pour deux valeurs voisines ?</p>",
+        "answer": "<p>Comparer dans cet ordre : <code>&lt;</code> indique une hausse, <code>==</code> une égalité, et le dernier cas est une baisse. Avec <code>if</code> / <code>elif</code> / <code>else</code>, chaque couple est classé dans une seule catégorie.</p>"
       }
     ],
     "next": "../supports/03_algorithmique.html",

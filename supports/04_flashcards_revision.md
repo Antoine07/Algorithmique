@@ -1,83 +1,103 @@
-# Flashcards — Recherche et logique dans les listes
+# 10 flashcards — Voisins, motifs et fenêtres
 
-Répondre de mémoire, révéler l'explication, puis choisir **Je savais** ou **À revoir**. Il s'agit d'une autoévaluation, sans note. Les motifs utilisés sont non vides.
+Répondez de mémoire, révélez l'explication, puis choisissez **Je savais** ou **À revoir**. Ces cartes portent sur les notions nouvelles du chapitre 03.
 
-## Carte 1 — Compter les chiffres
-
-### Question
-
-Que vaut `len(str(1002))` ? Et `len(str(0))` ?
-
-### Réponse
-
-**4 et 1.** `str()` transforme le nombre en texte ; `len()` compte ses caractères. Zéro s'écrit avec un chiffre. Cette méthode suppose ici des entiers positifs ou nuls : pour un négatif, le signe `-` serait aussi compté.
-
-## Carte 2 — Comparer des voisins
+## Carte 1 — Couples voisins
 
 ### Question
 
-Pourquoi utilise-t-on `range(len(valeurs) - 1)` pour comparer `valeurs[i]` et `valeurs[i + 1]` ?
+Pour comparer `values[i]` et `values[i + 1]`, pourquoi la boucle utilise-t-elle `range(len(values) - 1)` ?
 
 ### Réponse
 
-Le dernier indice testé pour `i` doit être **`len(valeurs) - 2`** : son voisin est alors le dernier élément. `range` exclut sa borne finale. On évite ainsi un accès après la fin de la liste. Avec moins de deux éléments, la boucle ne fait aucun tour.
+Le dernier départ valide est `len(values) - 2`, dont le voisin est au dernier indice. La borne finale de `range` est exclue. Avec moins de deux éléments, aucun couple n'est comparé.
 
-## Carte 3 — Chercher un motif complet
+## Carte 2 — Indice de départ
 
 ### Question
 
-Dans une liste de 6 éléments, combien de positions de départ faut-il tester pour chercher un motif de 3 éléments ?
+Dans `values = [4, 8, 3]`, à quel indice commence le couple `[8, 3]` ?
 
 ### Réponse
 
-**4 positions : 0, 1, 2 et 3.** La boucle est `range(6 - 3 + 1)`. Pour des longueurs `n` et `m`, on utilise `range(n - m + 1)`. Le `+ 1` permet de tester le dernier départ valide. Si le motif est plus long que la liste, aucun départ n'est testé.
+À l'indice `1`. On mémorise l'indice de la première valeur du couple, pas sa valeur ni l'indice de la deuxième.
 
-## Carte 4 — Reconnaître un triple croissant
+## Carte 3 — Compter les triples croissants
 
 ### Question
 
-Les triples `[2, 4, 4]` et `[2, 4, 6]` sont-ils strictement croissants ? Quel test utiliser ?
+Quel parcours permet de lire trois voisins avec les indices `i`, `i + 1` et `i + 2` ?
 
 ### Réponse
 
-**Seul `[2, 4, 6]` l'est.** Le test `x < y < z` exige deux augmentations strictes ; une égalité ne convient pas. Pour comparer trois voisins sans sortir de la liste, parcourir `range(len(valeurs) - 2)`.
+`range(len(values) - 2)`. Pour un triple strictement croissant, vérifier `values[i] < values[i + 1] < values[i + 2]` ; une égalité ne convient pas.
 
-## Carte 5 — Détecter un changement de signe
+## Carte 4 — Chevauchement de doublons
 
 ### Question
 
-Quels couples ont des signes opposés stricts : `[-2, 3]`, `[0, -4]`, `[5, -1]` ?
+Combien de couples égaux y a-t-il dans `[5, 5, 5]` ?
 
 ### Réponse
 
-**`[-2, 3]` et `[5, -1]`.** Le test est `(a < 0 and b > 0) or (a > 0 and b < 0)`. Il couvre les deux sens du changement. Zéro n'est ni strictement positif ni strictement négatif : `[0, -4]` est exclu.
+Deux, aux indices de départ 0 et 1. La valeur du milieu appartient aux deux couples ; les motifs consécutifs peuvent donc se chevaucher.
 
-## Carte 6 — Compter les doublons voisins
+## Carte 5 — Départs possibles d'un motif
 
 ### Question
 
-Combien de couples voisins égaux trouve-t-on dans `[4, 4, 4, 2]` ? À quels indices de départ ?
+Combien de positions de départ faut-il examiner pour un motif de 3 valeurs dans une liste de 6 valeurs ?
 
 ### Réponse
 
-**2 couples, aux indices 0 et 1.** On compare chaque élément à son voisin avec `valeurs[i] == valeurs[i + 1]`. Trois valeurs identiques consécutives forment deux couples : l'élément central participe aux deux.
+Quatre départs : 0, 1, 2 et 3. La boucle utilise `range(6 - 3 + 1)`. Si le motif est plus long que la liste, aucun départ n'est possible.
 
-## Carte 7 — Accepter les chevauchements
+## Carte 6 — Rôle des deux indices
 
 ### Question
 
-Où apparaît le motif `[1, 1]` dans `[1, 1, 1]` ? Pourquoi ne pas avancer de la longueur du motif après une correspondance ?
+Dans une recherche de motif, que représentent les indices `i` et `j` dans `values[i + j] == pattern[j]` ?
 
 ### Réponse
 
-**Aux indices 0 et 1.** Les deux occurrences partagent un élément. Avancer de deux positions ferait manquer celle d'indice 1. Il faut tester chaque départ, puis comparer `donnees[i + j]` à `motif[j]` dans une boucle intérieure.
+`i` est le départ de la fenêtre dans la liste ; `j` est la position examinée à l'intérieur du motif. On utilise une boucle extérieure pour les départs et une boucle intérieure pour comparer les valeurs.
 
-## Carte 8 — Autoriser une différence
+## Carte 7 — Garder le chevauchement
 
 ### Question
 
-Pour comparer chaque fenêtre à un motif, où initialiser `differences = 0` et quel test accepte au plus une différence ?
+Où apparaît `[1, 1]` dans `[1, 1, 1]` ?
 
 ### Réponse
 
-**Au début de chaque fenêtre**, avant la boucle qui compare ses éléments. Incrémenter le compteur à chaque inégalité, puis retenir la fenêtre si `differences <= 1`. Cela accepte 0 ou 1 différence. Le compteur ne doit ni cumuler les fenêtres précédentes, ni être remis à zéro à chaque élément.
+Aux départs 0 et 1. Après chaque essai, avancer le départ d'une seule position permet de ne pas manquer l'occurrence chevauchante.
+
+## Carte 8 — Réinitialiser les différences
+
+### Question
+
+Quand remettre `differences` à zéro lorsqu'on compare plusieurs fenêtres à un motif ?
+
+### Réponse
+
+Au début de chaque nouvelle fenêtre, avant la boucle intérieure. Ainsi, chaque fenêtre a son propre compte ; retenir celles qui vérifient `differences <= 1` accepte zéro ou une différence.
+
+## Carte 9 — Reconnaître un changement strict
+
+### Question
+
+Le couple `[0, -4]` constitue-t-il un changement de signe strict ? Pourquoi ?
+
+### Réponse
+
+Non. Zéro n'est ni positif ni négatif. Un changement strict exige un nombre négatif et un nombre positif, dans l'un ou l'autre ordre.
+
+## Carte 10 — Classer des voisins
+
+### Question
+
+Comment distinguer une hausse, une baisse et une égalité pour deux valeurs voisines ?
+
+### Réponse
+
+Comparer dans cet ordre : `<` indique une hausse, `==` une égalité, et le dernier cas est une baisse. Avec `if` / `elif` / `else`, chaque couple est classé dans une seule catégorie.

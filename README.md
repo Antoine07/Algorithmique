@@ -6,7 +6,7 @@ Le parcours contient le QCM 01 (20 questions), l'introduction à Python (9 slide
 
 Dix flashcards sur les bonnes pratiques du code complètent le chapitre 02.
 
-La section **Pour aller plus loin**, sous ce parcours, propose le chapitre 03 (18 slides, 8 exercices de recherche dans les listes), puis **8 flashcards**. Chaque carte permet de révéler la réponse et de choisir « Je savais » ou « À revoir ». Le bilan permet de reprendre uniquement les cartes à revoir ; cette autoévaluation est conservée dans le navigateur.
+La section **Pour aller plus loin**, sous ce parcours, propose le chapitre 03 (26 slides, 12 exercices progressifs sur les voisins, les motifs et les fenêtres), puis **10 flashcards sur les notions du chapitre 03**. Chaque carte permet de révéler la réponse et de choisir « Je savais » ou « À revoir ». Le bilan permet de reprendre uniquement les cartes à revoir ; cette autoévaluation est conservée dans le navigateur.
 
 Le cours de tri, **Introduction au tri en Python**, comporte 24 slides et 8 exercices. Il commence par deux animations (sélection et insertion) et la question « À votre avis, comment ça marche ? ». Seul le tri à bulles est ensuite étudié en code. Lecture/pause, vitesse et avance pas à pas permettent d'observer le tri, un passage unique et l'échange avec une variable temporaire.
 
