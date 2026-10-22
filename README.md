@@ -2,7 +2,9 @@
 
 Ouvrir **[docs/index.html](docs/index.html)** dans un navigateur. Le site complet est dans `docs/` : HTML, CSS, JavaScript et contenus générés. Les cours et QCM fonctionnent sans installation ni serveur.
 
-Le parcours contient le QCM 01 (20 questions), l'introduction à Python (9 slides), l'algorithmique (28 slides, 13 exercices), puis le QCM 02 (10 questions). Les QCM donnent une explication immédiate, un score et un récapitulatif. Les réponses restent enregistrées dans le navigateur lorsque son stockage est disponible ; aucun résultat n'est transmis à un enseignant.
+Le parcours contient le QCM 01 (20 questions), l'introduction à Python (9 slides), l'algorithmique (28 slides, 13 exercices), puis le QCM 02 (20 questions : 10 faciles puis 10 progressives). Les QCM donnent une explication immédiate, un score et un récapitulatif. Les réponses restent enregistrées dans le navigateur lorsque son stockage est disponible ; aucun résultat n'est transmis à un enseignant.
+
+Dix flashcards sur les bonnes pratiques du code complètent le chapitre 02.
 
 La section **Pour aller plus loin**, sous ce parcours, propose le chapitre 03 (18 slides, 8 exercices de recherche dans les listes), puis **8 flashcards**. Chaque carte permet de révéler la réponse et de choisir « Je savais » ou « À revoir ». Le bilan permet de reprendre uniquement les cartes à revoir ; cette autoévaluation est conservée dans le navigateur.
 
@@ -39,7 +41,8 @@ docs/
 │   └── 05_introduction_tri.html
 ├── revision/
 │   ├── 04_flashcards.html
-│   └── 06_flashcards_tri.html
+│   ├── 06_flashcards_tri.html
+│   └── 07_flashcards_code_propre.html
 └── qcm/
     ├── 01_QCM_Revision.html
     ├── 02_QCM_Revision.html

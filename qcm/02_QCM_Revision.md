@@ -1,12 +1,241 @@
 # 02 — QCM de révision : algorithmique avec Python
 
-**10 questions — une seule bonne réponse par question — 1 point par réponse.**
+**20 questions — une seule bonne réponse par question — 1 point par réponse.**
 
-Prédire les résultats sans exécuter le code, puis ouvrir les feedbacks. Tous les extraits utilisent les conventions de Python : indices à partir de 0 et borne finale de `range` exclue.
+Commencez par 10 questions faciles, puis poursuivez avec 10 questions progressives. Prédire les résultats sans exécuter le code, puis ouvrir les feedbacks. Tous les extraits utilisent les conventions de Python : indices à partir de 0 et borne finale de `range` exclue.
 
 [Revoir le chapitre](../supports/02_algorithmique.md)
 
-## Question 1 — Affectations et permutation
+## Question 1 — Addition simple
+
+Que vaut `total` ?
+
+```python
+price = 4
+quantity = 3
+total = price * quantity
+```
+
+A. `7`  
+B. `12`  
+C. `43`  
+D. `1`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : B.** Le montant est le prix multiplié par la quantité : 4 × 3 = 12.
+
+- A : correspondrait à une addition.
+- C : assemble les chiffres au lieu de les multiplier.
+- D : la différence entre les deux valeurs n'est pas le produit.
+
+</details>
+
+## Question 2 — Calculer un reste
+
+Que vaut `17 % 5` ?
+
+A. `2`  
+B. `3`  
+C. `5`  
+D. `12`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : A.** 17 = 5 × 3 + 2 ; le reste est 2.
+
+- B : c'est le quotient entier.
+- C : c'est le diviseur, pas le reste.
+- D : c'est la différence entre 17 et 5.
+
+</details>
+
+## Question 3 — Division entière
+
+Que vaut `20 // 4` ?
+
+A. `0`  
+B. `4`  
+C. `5`  
+D. `5.0`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : C.** 20 divisé par 4 vaut 5.
+
+- A : le reste est nul ; le quotient ne l'est pas.
+- B : c'est le diviseur.
+- D : `//` produit ici l'entier `5`, pas le flottant `5.0`.
+
+</details>
+
+## Question 4 — Comparer deux valeurs
+
+Que vaut `age >= 18` si `age = 18` ?
+
+A. `18`  
+B. `False`  
+C. `19`  
+D. `True`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : D.** `>=` signifie « supérieur ou égal ». L'égalité suffit donc.
+
+- A et C sont des nombres ; la comparaison renvoie un booléen.
+- B serait le résultat de `age > 18`, qui exclut l'égalité.
+
+</details>
+
+## Question 5 — Choisir une branche
+
+Que s'affiche-t-il ?
+
+```python
+temperature = 12
+if temperature < 0:
+    print("Cold")
+else:
+    print("Warm")
+```
+
+A. `Cold`  
+B. `Warm`  
+C. Les deux messages  
+D. Aucun message
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : B.** `12 < 0` est faux ; le bloc `else` affiche `Warm`.
+
+- A : correspondrait à une température négative.
+- C : un seul bloc de cette structure est exécuté.
+- D : une des deux branches s'exécute toujours ici.
+
+</details>
+
+## Question 6 — Comprendre range
+
+Quelles valeurs prend `i` ?
+
+```python
+for i in range(1, 4):
+    print(i)
+```
+
+A. 1, 2, 3  
+B. 1, 2, 3, 4  
+C. 0, 1, 2, 3  
+D. 4 seulement
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : A.** La boucle commence à 1 et s'arrête avant la borne 4.
+
+- B : la borne finale est exclue.
+- C : `range(1, 4)` ne commence pas à 0.
+- D : 4 est la borne d'arrêt, jamais une valeur de la boucle.
+
+</details>
+
+## Question 7 — Parcourir une liste
+
+Quels nombres sont affichés ?
+
+```python
+for number in [2, 4]:
+    print(number + 1)
+```
+
+A. 2, 4  
+B. 3 seulement  
+C. 5 seulement  
+D. 3, 5
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : D.** La boucle ajoute 1 à chaque élément : 2 devient 3 et 4 devient 5.
+
+- A : affiche les valeurs d'origine, sans le calcul.
+- B : omet le deuxième tour.
+- C : ajoute 1 à la dernière valeur seulement.
+
+</details>
+
+## Question 8 — Longueur d'une liste
+
+Que vaut `len(numbers)` ?
+
+```python
+numbers = [8, 10, 12]
+```
+
+A. `3`  
+B. `2`  
+C. `30`  
+D. `12`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : A.** La liste contient trois éléments.
+
+- B : est le dernier indice, pas la longueur.
+- C : additionne les valeurs au lieu de compter les éléments.
+- D : est le dernier élément de la liste.
+
+</details>
+
+## Question 9 — Ajouter un élément
+
+Que contient `numbers` après le programme ?
+
+```python
+numbers = [1]
+numbers.append(2)
+```
+
+A. `[2]`  
+B. `[1, 2]`  
+C. `[1]`  
+D. `[1, 1, 2]`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : B.** `append` ajoute 2 à la fin de la liste existante.
+
+- A : remplacerait la liste au lieu de lui ajouter un élément.
+- C : ne tiendrait pas compte de l'appel à `append`.
+- D : ajouterait une valeur qui n'est pas dans le programme.
+
+</details>
+
+## Question 10 — Accumuler une somme
+
+Que s'affiche-t-il ?
+
+```python
+total = 0
+for number in [2, 3]:
+    total += number
+print(total)
+```
+
+A. `3`  
+B. `5`  
+C. `23`  
+D. `0`
+
+<details><summary>Réponse et feedback</summary>
+
+**Réponse : B.** Le total passe de 0 à 2, puis à 5.
+
+- A : est la dernière valeur lue, pas la somme.
+- C : assemble les chiffres au lieu de les additionner.
+- D : serait le total si la boucle n'ajoutait aucune valeur.
+
+</details>
+
+## Question 11 — Affectations et permutation
 
 Que s'affiche-t-il ?
 
@@ -33,7 +262,7 @@ D. `4 4`
 
 </details>
 
-## Question 2 — Quotient et reste
+## Question 12 — Quotient et reste
 
 Que s'affiche-t-il ?
 
@@ -56,7 +285,7 @@ D. `4 0`
 
 </details>
 
-## Question 3 — Conditions combinées
+## Question 13 — Conditions combinées
 
 Que s'affiche-t-il ?
 
@@ -83,7 +312,7 @@ D. `A`
 
 </details>
 
-## Question 4 — Boucle et accumulateur
+## Question 14 — Boucle et accumulateur
 
 Quelle valeur est affichée ?
 
@@ -109,7 +338,7 @@ D. `4`
 
 </details>
 
-## Question 5 — Filtrer et compter
+## Question 15 — Filtrer et compter
 
 Que s'affiche-t-il ?
 
@@ -136,7 +365,7 @@ D. `3`
 
 </details>
 
-## Question 6 — Maximum et valeurs négatives
+## Question 16 — Maximum et valeurs négatives
 
 Pour chercher le maximum d'une liste **non vide**, quelle initialisation convient à toutes les listes de nombres, y compris si tous sont négatifs ?
 
@@ -155,7 +384,7 @@ D. `maximum = -1`
 
 </details>
 
-## Question 7 — Première occurrence
+## Question 17 — Première occurrence
 
 Que s'affiche-t-il ?
 
@@ -183,7 +412,7 @@ D. `-1`
 
 </details>
 
-## Question 8 — Extraire les chiffres
+## Question 18 — Extraire les chiffres
 
 Quelle valeur est affichée ?
 
@@ -211,7 +440,7 @@ D. `8`
 
 </details>
 
-## Question 9 — Vérifier un tri
+## Question 19 — Vérifier un tri
 
 On parcourt les voisins avec `for i in range(len(nombres) - 1)`. Quel test détecte une violation de l'ordre croissant **avec égalités autorisées** ?
 
@@ -230,7 +459,7 @@ D. `nombres[i] >= nombres[i + 1]`
 
 </details>
 
-## Question 10 — Facteurs premiers et limite de la liste
+## Question 20 — Facteurs premiers et limite de la liste
 
 On décompose 68 avec `premiers = [2, 3, 5, 7, 11, 13]`. Pour chaque premier, on divise le reste autant de fois que possible. Quel résultat obtient-on ?
 
@@ -253,8 +482,8 @@ D. Facteurs `[2, 2]`, reste `1`, décomposition complète.
 
 <details><summary>Afficher la grille complète</summary>
 
-| Question | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| Réponse | C | A | D | B | C | B | A | D | B | C |
+| Question | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Réponse | B | A | C | D | B | A | D | A | B | B | C | A | D | B | C | B | A | D | B | C |
 
 </details>

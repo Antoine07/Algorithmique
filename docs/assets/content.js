@@ -291,8 +291,138 @@ window.LEARNING_CONTENT = {
   },
   "quiz02": {
     "title": "QCM de révision 02",
-    "subtitle": "Les algorithmes en Python",
+    "subtitle": "10 questions faciles, puis 10 questions progressives",
     "questions": [
+      {
+        "title": "Addition simple",
+        "prompt": "<p>Que vaut <code>total</code> ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>price = 4\nquantity = 3\ntotal = price * quantity</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>7</code></span>",
+          "<span class=\"option-text\"><code>12</code></span>",
+          "<span class=\"option-text\"><code>43</code></span>",
+          "<span class=\"option-text\"><code>1</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>Le montant est le prix multiplié par la quantité : 4 × 3 = 12.</p>",
+        "feedback": "<p>Le montant est le prix multiplié par la quantité : 4 × 3 = 12.</p>\n<ul><li>A : correspondrait à une addition.</li><li>C : assemble les chiffres au lieu de les multiplier.</li><li>D : la différence entre les deux valeurs n&#x27;est pas le produit.</li></ul>"
+      },
+      {
+        "title": "Calculer un reste",
+        "prompt": "<p>Que vaut <code>17 % 5</code> ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>2</code></span>",
+          "<span class=\"option-text\"><code>3</code></span>",
+          "<span class=\"option-text\"><code>5</code></span>",
+          "<span class=\"option-text\"><code>12</code></span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>17 = 5 × 3 + 2 ; le reste est 2.</p>",
+        "feedback": "<p>17 = 5 × 3 + 2 ; le reste est 2.</p>\n<ul><li>B : c&#x27;est le quotient entier.</li><li>C : c&#x27;est le diviseur, pas le reste.</li><li>D : c&#x27;est la différence entre 17 et 5.</li></ul>"
+      },
+      {
+        "title": "Division entière",
+        "prompt": "<p>Que vaut <code>20 // 4</code> ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>0</code></span>",
+          "<span class=\"option-text\"><code>4</code></span>",
+          "<span class=\"option-text\"><code>5</code></span>",
+          "<span class=\"option-text\"><code>5.0</code></span>"
+        ],
+        "answer": 2,
+        "explanation": "<p>20 divisé par 4 vaut 5.</p>",
+        "feedback": "<p>20 divisé par 4 vaut 5.</p>\n<ul><li>A : le reste est nul ; le quotient ne l&#x27;est pas.</li><li>B : c&#x27;est le diviseur.</li><li>D : <code>//</code> produit ici l&#x27;entier <code>5</code>, pas le flottant <code>5.0</code>.</li></ul>"
+      },
+      {
+        "title": "Comparer deux valeurs",
+        "prompt": "<p>Que vaut <code>age &gt;= 18</code> si <code>age = 18</code> ?</p>",
+        "options": [
+          "<span class=\"option-text\"><code>18</code></span>",
+          "<span class=\"option-text\"><code>False</code></span>",
+          "<span class=\"option-text\"><code>19</code></span>",
+          "<span class=\"option-text\"><code>True</code></span>"
+        ],
+        "answer": 3,
+        "explanation": "<p><code>&gt;=</code> signifie « supérieur ou égal ». L&#x27;égalité suffit donc.</p>",
+        "feedback": "<p><code>&gt;=</code> signifie « supérieur ou égal ». L&#x27;égalité suffit donc.</p>\n<ul><li>A et C sont des nombres ; la comparaison renvoie un booléen.</li><li>B serait le résultat de <code>age &gt; 18</code>, qui exclut l&#x27;égalité.</li></ul>"
+      },
+      {
+        "title": "Choisir une branche",
+        "prompt": "<p>Que s&#x27;affiche-t-il ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>temperature = 12\nif temperature &lt; 0:\n    print(&quot;Cold&quot;)\nelse:\n    print(&quot;Warm&quot;)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>Cold</code></span>",
+          "<span class=\"option-text\"><code>Warm</code></span>",
+          "<span class=\"option-text\">Les deux messages</span>",
+          "<span class=\"option-text\">Aucun message</span>"
+        ],
+        "answer": 1,
+        "explanation": "<p><code>12 &lt; 0</code> est faux ; le bloc <code>else</code> affiche <code>Warm</code>.</p>",
+        "feedback": "<p><code>12 &lt; 0</code> est faux ; le bloc <code>else</code> affiche <code>Warm</code>.</p>\n<ul><li>A : correspondrait à une température négative.</li><li>C : un seul bloc de cette structure est exécuté.</li><li>D : une des deux branches s&#x27;exécute toujours ici.</li></ul>"
+      },
+      {
+        "title": "Comprendre range",
+        "prompt": "<p>Quelles valeurs prend <code>i</code> ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>for i in range(1, 4):\n    print(i)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\">1, 2, 3</span>",
+          "<span class=\"option-text\">1, 2, 3, 4</span>",
+          "<span class=\"option-text\">0, 1, 2, 3</span>",
+          "<span class=\"option-text\">4 seulement</span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>La boucle commence à 1 et s&#x27;arrête avant la borne 4.</p>",
+        "feedback": "<p>La boucle commence à 1 et s&#x27;arrête avant la borne 4.</p>\n<ul><li>B : la borne finale est exclue.</li><li>C : <code>range(1, 4)</code> ne commence pas à 0.</li><li>D : 4 est la borne d&#x27;arrêt, jamais une valeur de la boucle.</li></ul>"
+      },
+      {
+        "title": "Parcourir une liste",
+        "prompt": "<p>Quels nombres sont affichés ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>for number in [2, 4]:\n    print(number + 1)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\">2, 4</span>",
+          "<span class=\"option-text\">3 seulement</span>",
+          "<span class=\"option-text\">5 seulement</span>",
+          "<span class=\"option-text\">3, 5</span>"
+        ],
+        "answer": 3,
+        "explanation": "<p>La boucle ajoute 1 à chaque élément : 2 devient 3 et 4 devient 5.</p>",
+        "feedback": "<p>La boucle ajoute 1 à chaque élément : 2 devient 3 et 4 devient 5.</p>\n<ul><li>A : affiche les valeurs d&#x27;origine, sans le calcul.</li><li>B : omet le deuxième tour.</li><li>C : ajoute 1 à la dernière valeur seulement.</li></ul>"
+      },
+      {
+        "title": "Longueur d'une liste",
+        "prompt": "<p>Que vaut <code>len(numbers)</code> ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>numbers = [8, 10, 12]</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>3</code></span>",
+          "<span class=\"option-text\"><code>2</code></span>",
+          "<span class=\"option-text\"><code>30</code></span>",
+          "<span class=\"option-text\"><code>12</code></span>"
+        ],
+        "answer": 0,
+        "explanation": "<p>La liste contient trois éléments.</p>",
+        "feedback": "<p>La liste contient trois éléments.</p>\n<ul><li>B : est le dernier indice, pas la longueur.</li><li>C : additionne les valeurs au lieu de compter les éléments.</li><li>D : est le dernier élément de la liste.</li></ul>"
+      },
+      {
+        "title": "Ajouter un élément",
+        "prompt": "<p>Que contient <code>numbers</code> après le programme ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>numbers = [1]\nnumbers.append(2)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>[2]</code></span>",
+          "<span class=\"option-text\"><code>[1, 2]</code></span>",
+          "<span class=\"option-text\"><code>[1]</code></span>",
+          "<span class=\"option-text\"><code>[1, 1, 2]</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p><code>append</code> ajoute 2 à la fin de la liste existante.</p>",
+        "feedback": "<p><code>append</code> ajoute 2 à la fin de la liste existante.</p>\n<ul><li>A : remplacerait la liste au lieu de lui ajouter un élément.</li><li>C : ne tiendrait pas compte de l&#x27;appel à <code>append</code>.</li><li>D : ajouterait une valeur qui n&#x27;est pas dans le programme.</li></ul>"
+      },
+      {
+        "title": "Accumuler une somme",
+        "prompt": "<p>Que s&#x27;affiche-t-il ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>total = 0\nfor number in [2, 3]:\n    total += number\nprint(total)</code></pre></div>",
+        "options": [
+          "<span class=\"option-text\"><code>3</code></span>",
+          "<span class=\"option-text\"><code>5</code></span>",
+          "<span class=\"option-text\"><code>23</code></span>",
+          "<span class=\"option-text\"><code>0</code></span>"
+        ],
+        "answer": 1,
+        "explanation": "<p>Le total passe de 0 à 2, puis à 5.</p>",
+        "feedback": "<p>Le total passe de 0 à 2, puis à 5.</p>\n<ul><li>A : est la dernière valeur lue, pas la somme.</li><li>C : assemble les chiffres au lieu de les additionner.</li><li>D : serait le total si la boucle n&#x27;ajoutait aucune valeur.</li></ul>"
+      },
       {
         "title": "Affectations et permutation",
         "prompt": "<p>Que s&#x27;affiche-t-il ?</p>\n<div class=\"code-block\"><span class=\"code-label\">Python</span><pre tabindex=\"0\"><code>a = 4\nb = 9\na = b\nb = a\nprint(a, b)</code></pre></div>",
@@ -1046,6 +1176,66 @@ window.LEARNING_CONTENT = {
     "sourceName": "05_introduction_tri.md",
     "next": "../revision/06_flashcards_tri.html",
     "nextLabel": "Réviser le tri en 5 cartes"
+  },
+  "cleanCode": {
+    "title": "10 flashcards — Écrire un algorithme propre",
+    "subtitle": "Des habitudes simples pour écrire un code clair et fiable",
+    "cards": [
+      {
+        "title": "Choisir un nom utile",
+        "question": "<p>Quel nom explique le mieux le contenu d&#x27;une variable qui conserve des notes suffisantes ?</p>",
+        "answer": "<p><code>valid_grades</code> est plus parlant que <code>x</code> ou <code>list2</code>. Un nom précis aide à comprendre l&#x27;intention sans relire tout l&#x27;algorithme.</p>"
+      },
+      {
+        "title": "Suivre la convention des noms",
+        "question": "<p>Comment nommer une variable contenant le nombre d&#x27;éléments trouvés en Python ?</p>",
+        "answer": "<p>Utiliser <code>match_count</code> : minuscules et mots séparés par des traits de soulignement (<code>snake_case</code>). Garder la même convention dans tout le programme.</p>"
+      },
+      {
+        "title": "Indenter les blocs",
+        "question": "<p>Quelles lignes doivent être indentées après <code>if</code> ou <code>for</code> ?</p>",
+        "answer": "<p>Les instructions qui appartiennent au bloc sont indentées de quatre espaces. Une indentation régulière rend les conditions et les boucles faciles à repérer.</p>"
+      },
+      {
+        "title": "Initialiser avant de parcourir",
+        "question": "<p>Où placer <code>total = 0</code> si l&#x27;on veut accumuler les valeurs d&#x27;une liste ?</p>",
+        "answer": "<p>Avant la boucle. Placé dedans, le total est remis à zéro à chaque tour et le cumul est perdu.</p>"
+      },
+      {
+        "title": "Séparer les étapes",
+        "question": "<p>Quelles étapes identifier avant d&#x27;écrire le code ?</p>",
+        "answer": "<p>Les entrées, le traitement, puis la sortie attendue. Les distinguer évite de mélanger les données de départ, les calculs et l&#x27;affichage.</p>"
+      },
+      {
+        "title": "Choisir une borne sûre",
+        "question": "<p>Pour parcourir les indices d&#x27;une liste, comment éviter de lire après sa fin ?</p>",
+        "answer": "<p>Pour les valeurs seules : <code>range(len(items))</code>. Pour comparer chaque élément avec son voisin suivant : <code>range(len(items) - 1)</code>. Le dernier indice est <code>len(items) - 1</code>.</p>"
+      },
+      {
+        "title": "Faire avancer un while",
+        "question": "<p>Que faut-il vérifier dans une boucle <code>while</code> ?</p>",
+        "answer": "<p>Une valeur utilisée dans la condition doit progresser vers la fin de la boucle. Sinon, la condition peut rester vraie indéfiniment.</p>"
+      },
+      {
+        "title": "Garder la liste d'origine",
+        "question": "<p>Comment filtrer sans perdre la liste initiale ?</p>",
+        "answer": "<p>Créer une nouvelle liste vide, par exemple <code>valid_items = []</code>, puis y ajouter les éléments retenus avec <code>append</code>. La liste d&#x27;origine reste disponible.</p>"
+      },
+      {
+        "title": "Tester un cas limite",
+        "question": "<p>En plus du cas habituel, quels petits cas tester pour une boucle ou une recherche ?</p>",
+        "answer": "<p>Tester une liste vide, une liste à un élément, une cible absente et, si pertinent, des nombres négatifs ou des doublons. Ces cas révèlent souvent des erreurs de borne ou d&#x27;initialisation.</p>"
+      },
+      {
+        "title": "Commenter avec intention",
+        "question": "<p>Que doit expliquer un commentaire utile ?</p>",
+        "answer": "<p>Une décision ou une intention qui n&#x27;est pas évidente à la seule lecture du code. Les noms et les instructions simples n&#x27;ont généralement pas besoin d&#x27;être paraphrasés.</p>"
+      }
+    ],
+    "next": "../supports/02_algorithmique.html",
+    "nextLabel": "Revoir le chapitre 02",
+    "followup": "../qcm/02_QCM_Revision.html",
+    "followupLabel": "Refaire le QCM 02"
   },
   "flashtri": {
     "title": "5 flashcards sur le tri",
