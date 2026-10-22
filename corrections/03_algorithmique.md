@@ -186,6 +186,12 @@ print(reversed_numbers)  # [40, 30, 20, 10]
 
 **Vérification :** `[]` → `[]` ; `[5]` → `[5]`. La liste `numbers` reste intacte.
 
+## Avant les corrections des exercices avancés
+
+**À partir de l'exercice 11, le niveau augmente : ces exercices sont avancés et combinent plusieurs notions.** Si vous débutez, prenez plus de temps pour les décomposer et comprendre chaque étape ; c'est normal.
+
+**Si vous avez bien compris les exercices 1 à 10, vous avez acquis les bases attendues et êtes au niveau visé par le cours.** Les exercices 11 à 13 sont là pour approfondir ces acquis.
+
 ## 11. Additionner les chiffres d'un nombre
 
 **Précondition :** `number` est un entier positif ou nul.

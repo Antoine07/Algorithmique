@@ -127,7 +127,7 @@ Chaque nombre est testé. Seuls 3 et 5 sont ajoutés à la nouvelle liste.
 - Contrainte : conserver la liste initiale et l'ordre des notes.
 - Indice : partir d'une liste vide, puis ajouter uniquement les notes retenues.
 
-## Partie 2 — 8 exercices plus techniques
+## Partie 2 — 8 exercices pour approfondir
 
 ### 6. Permuter deux valeurs
 
@@ -229,6 +229,12 @@ Après l'affichage de 0, `i` devient -1 et la boucle s'arrête.
 - Contraintes : conserver l'original ; sans `.reverse()`, `reversed()` ni `[::-1]`.
 - Réussite : obtenir `[40, 30, 20, 10]` ; `[]` donne `[]` ; `[5]` donne `[5]`.
 - Indices : le dernier indice est `len(nombres) - 1` ; ajouter chaque valeur à une nouvelle liste.
+
+### Repère de progression
+
+À partir de l'exercice 11, les exercices sont avancés et demandent d'assembler plusieurs notions. Si vous débutez, prenez davantage de temps pour les lire, les décomposer et les comprendre : c'est normal.
+
+Si vous avez compris et réussi les exercices 1 à 10, vous maîtrisez les bases attendues dans ce cours. Les exercices 11 à 13 permettent d'aller plus loin.
 
 ### 11. Additionner les chiffres d'un nombre
 
