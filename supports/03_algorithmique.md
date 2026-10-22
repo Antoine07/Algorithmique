@@ -1,6 +1,6 @@
 # TP Python — Recherche et logique dans les listes
 
-**Bachelor 1 · Approfondissement progressif · 12 exercices**
+**Bachelor 1 · Approfondissement progressif · 15 exercices**
 
 ## Méthode
 
@@ -205,7 +205,98 @@ Construire la liste des indices où apparaît le motif complet.
 
 **Pour avancer :** créer la liste de résultats ; le dernier départ possible vaut `len(values) - len(pattern)` ; ajouter chaque départ correspondant.
 
-## Exercice 07 — Comparer un motif de trois valeurs
+## Exercice 07 — Comparer une fenêtre au motif
+
+### Exemple expliqué
+
+```python
+values = [3, 1, 3, 2]
+pattern = [3, 1]
+start = 0
+matches = 0
+for j in range(len(pattern)):
+    if values[start + j] == pattern[j]:
+        matches += 1
+print(matches)  # 2
+```
+
+On compare une seule fenêtre au motif. Le compteur indique combien de positions correspondent.
+
+### Énoncé
+
+```python
+values = [3, 1, 3, 2]
+pattern = [3, 1]
+start = 2
+```
+
+Compter combien de valeurs de la fenêtre qui commence à `start` correspondent au motif.
+
+**Résultat attendu :** `1`.
+
+**Pour avancer :** pour chaque `j`, comparer `values[start + j]` à `pattern[j]` ; ajouter 1 au compteur en cas d'égalité.
+
+## Exercice 08 — Compter les correspondances dans chaque fenêtre
+
+### Exemple expliqué
+
+```python
+values = [2, 4, 2, 5]
+pattern = [2, 4]
+for i in range(len(values) - len(pattern) + 1):
+    matches = 0
+    for j in range(len(pattern)):
+        if values[i + j] == pattern[j]:
+            matches += 1
+    print(i, matches)
+```
+
+La boucle extérieure choisit chaque fenêtre valide ; la boucle intérieure compte ses positions correspondantes. On affiche le score sans encore décider si le motif est complet.
+
+### Énoncé
+
+```python
+values = [3, 1, 3, 2, 3, 1]
+pattern = [3, 1]
+```
+
+Afficher pour chaque départ valide l'indice et le nombre de positions correspondantes.
+
+**Résultat attendu :** `0 2`, `1 0`, `2 1`, `3 0`, `4 2`.
+
+**Pour avancer :** remettre `matches` à zéro au début de chaque fenêtre ; après la boucle de `j`, afficher `i` et `matches`.
+
+## Exercice 09 — Arrêter une comparaison avec break
+
+### Exemple expliqué
+
+```python
+window = [3, 1, 4]
+pattern = [3, 2, 4]
+matches = True
+for j in range(len(pattern)):
+    if window[j] != pattern[j]:
+        matches = False
+        break
+print(matches)  # False
+```
+
+Dès que la deuxième position diffère, la comparaison s'arrête : les positions suivantes ne peuvent pas rendre la fenêtre identique au motif.
+
+### Énoncé
+
+```python
+window = [5, 2, 8, 4]
+pattern = [5, 2, 3, 4]
+```
+
+Comparer la fenêtre au motif avec une boucle. Mettre `matches` à `False` et utiliser `break` dès qu'une différence est trouvée. Afficher le booléen obtenu.
+
+**Résultat attendu :** `False`.
+
+**Pour avancer :** partir de `matches = True` ; si deux valeurs diffèrent, modifier le booléen et interrompre la boucle.
+
+## Exercice 10 — Comparer un motif de trois valeurs
 
 ### Exemple expliqué
 
@@ -236,7 +327,7 @@ Trouver tous les départs où le motif apparaît. Utiliser deux boucles et un bo
 
 **Pour avancer :** pour chaque `i`, initialiser `matches = True` ; comparer `values[i + j]` avec `pattern[j]` ; mémoriser le départ si toutes les positions correspondent.
 
-## Exercice 08 — Ne pas manquer les chevauchements
+## Exercice 11 — Ne pas manquer les chevauchements
 
 ### Exemple expliqué
 
@@ -263,7 +354,7 @@ Trouver tous les départs du motif avec deux boucles. Accepter les chevauchement
 
 **Pour avancer :** avancer `i` d'une seule position après chaque essai, même après une correspondance ; la boucle de `j` vérifie les trois valeurs.
 
-## Exercice 09 — Compter les différences dans une fenêtre
+## Exercice 12 — Compter les différences dans une fenêtre
 
 ### Exemple expliqué
 
@@ -292,7 +383,7 @@ Compter le nombre de différences entre cette fenêtre et le motif.
 
 **Pour avancer :** les longueurs sont égales ; comparer les valeurs aux mêmes indices et incrémenter le compteur pour chaque inégalité.
 
-## Exercice 10 — Tester chaque fenêtre avec une erreur permise
+## Exercice 13 — Tester chaque fenêtre avec une erreur permise
 
 ### Exemple expliqué
 
@@ -327,7 +418,7 @@ Enregistrer `[indice, differences]` pour chaque fenêtre qui contient au plus un
 
 ## Partie 3 — Analyser les changements de signe
 
-## Exercice 11 — Distinguer les deux sens du changement
+## Exercice 14 — Distinguer les deux sens du changement
 
 ### Exemple expliqué
 
@@ -352,7 +443,7 @@ Enregistrer les indices où deux voisins sont de signes opposés stricts, dans l
 
 **Pour avancer :** un sens est négatif puis positif ; l'autre est positif puis négatif. Combiner ces cas avec `or` ; zéro ne satisfait aucun des tests stricts.
 
-## Exercice 12 — Faire le bilan des voisins
+## Exercice 15 — Faire le bilan des voisins
 
 ### Exemple expliqué
 
