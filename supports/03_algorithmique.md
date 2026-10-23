@@ -205,7 +205,7 @@ Construire la liste des indices où apparaît le motif complet.
 
 **Pour avancer :** créer la liste de résultats ; le dernier départ possible vaut `len(values) - len(pattern)` ; ajouter chaque départ correspondant.
 
-## Exercice 07 — Comparer une fenêtre au motif
+## Exercice 07 — Vérifier une correspondance complète
 
 ### Exemple expliqué
 
@@ -213,14 +213,18 @@ Construire la liste des indices où apparaît le motif complet.
 values = [3, 1, 3, 2]
 pattern = [3, 1]
 start = 0
-matches = 0
+matching_positions = 0
 for j in range(len(pattern)):
     if values[start + j] == pattern[j]:
-        matches += 1
-print(matches)  # 2
+        matching_positions += 1
+
+found = 0
+if matching_positions == len(pattern):
+    found = 1
+print(found)  # 1 : les deux positions correspondent
 ```
 
-On compare une seule fenêtre au motif. Le compteur indique combien de positions correspondent.
+On compte les positions égales. Le motif complet est trouvé seulement si toutes ses positions correspondent à la fenêtre.
 
 ### Énoncé
 
@@ -230,11 +234,11 @@ pattern = [3, 1]
 start = 2
 ```
 
-Compter combien de valeurs de la fenêtre qui commence à `start` correspondent au motif.
+Vérifier si toute la fenêtre qui commence à `start` correspond au motif. Utiliser un compteur de positions égales et afficher `1` si tout le motif correspond, sinon `0`.
 
-**Résultat attendu :** `1`.
+**Résultat attendu :** `0`. Une position correspond, mais pas les deux.
 
-**Pour avancer :** pour chaque `j`, comparer `values[start + j]` à `pattern[j]` ; ajouter 1 au compteur en cas d'égalité.
+**Pour avancer :** pour chaque `j`, comparer `values[start + j]` à `pattern[j]` ; après la boucle, vérifier si le compteur est égal à `len(pattern)`.
 
 ## Exercice 08 — Compter les correspondances dans chaque fenêtre
 
