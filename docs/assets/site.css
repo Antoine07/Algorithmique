@@ -53,6 +53,11 @@
 @media print{.sort-controls,.discovery-answer,.finale-bars{display:none!important}.sorting-demo{break-inside:avoid}.sort-stage{background:#edf3e5}.sort-value,.sort-index,.sort-axis{fill:#203b36}}
 
 /* Les valeurs choisies et les préfixes triés restent distincts des places définitives. */
+.sort-bar.is-pivot:not(.is-active):not(.is-quick-final) rect{fill:#b6cf72;stroke:#e6f1bd;stroke-width:2}
+.sort-bar.is-quick-final rect{fill:#c8e77e;stroke:#e9f6ba;stroke-width:1}
+.sort-bar.is-quick-outside:not(.is-quick-final){opacity:.3}
+.legend-pivot{background:#b6cf72}
+.challenge-final{padding-bottom:40px}
 .sort-bar.is-ordered rect{fill:#6acfc2;stroke:none}
 .sort-bar.is-ordered.is-active rect{fill:#edb56d;stroke:#ffdda1;stroke-width:2}
 .sort-bar.is-picked rect{fill:#b79be8;stroke:#e6d7ff;stroke-width:2}
