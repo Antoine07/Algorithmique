@@ -476,3 +476,4 @@ Compter les hausses, les baisses, les égalités et les changements de signe str
 **Résultat attendu :** `2 3 2 3`.
 
 **Pour avancer :** parcourir les couples une seule fois ; classer chaque relation ; compter un changement de signe uniquement si les deux valeurs sont strictement de signes contraires.
+

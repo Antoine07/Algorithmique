@@ -65,3 +65,28 @@
 .path-grid.revision-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 .revision-grid .path-card h3{font-size:1.35rem}
 @media(max-width:900px){.path-grid.revision-grid{grid-template-columns:1fr}.revision-grid .card-top{margin-bottom:18px}}
+
+/* Flashcards : rendre visibles les décalages d'indices dans une fenêtre. */
+.index-animation{margin:22px 0;padding:18px;border:1px solid #ccd9c8;border-radius:16px;background:#f5f8ef}
+.index-animation-head{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:.68rem;margin-bottom:18px}
+.index-array{display:grid;grid-template-columns:84px minmax(0,1fr);align-items:center;gap:10px;margin:10px 0}
+.index-array-label{font:600 .75rem ui-monospace,SFMono-Regular,monospace;color:var(--muted)}
+.index-cells{display:grid;grid-template-columns:repeat(var(--cell-count),minmax(38px,1fr));gap:7px}
+.index-cell{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 4px;border:1px solid #d6dfd1;border-radius:9px;background:#fff;transition:background .2s,border-color .2s,transform .2s,opacity .2s}
+.index-cell span{font: .58rem ui-monospace,SFMono-Regular,monospace;color:#738078}
+.index-cell strong{font:650 1.05rem ui-monospace,SFMono-Regular,monospace}
+.index-cell.in-window{background:#e9f0df;border-color:#aec39e}
+.index-cell.is-current{transform:translateY(-3px);border-width:2px}
+.index-cell.is-match{background:#dff0c9;border-color:#8eae66}
+.index-cell.is-mismatch{background:#fff0df;border-color:#d9a36d}
+.index-state{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:18px 0 10px}
+.index-state span{padding:5px 9px;background:white;border:1px solid var(--line);border-radius:8px;font: .67rem ui-monospace,SFMono-Regular,monospace}
+.index-state strong{margin-left:5px;color:var(--green)}
+.index-state .invalid-tag{color:#8b4b24;background:#fff0df}
+.index-message{min-height:48px;margin:8px 0 12px;padding:10px 12px;border-radius:9px;background:white;font-size:.77rem;line-height:1.5}
+.index-code{overflow:auto;margin:0;padding:12px 14px;border-radius:10px;background:#203b36;color:#e7eee7;font: .68rem/1.9 ui-monospace,SFMono-Regular,monospace;white-space:pre}
+.index-code span{display:block;padding:0 6px;border-radius:4px}
+.index-code .is-code-active{background:#44694d;color:#eff7c4}
+.index-controls{display:flex;gap:8px;align-items:center;margin-top:12px}
+.index-controls .button{min-height:38px;padding:7px 12px;font-size:.7rem}
+@media(max-width:560px){.index-animation{padding:12px}.index-array{grid-template-columns:60px minmax(0,1fr);gap:6px}.index-cells{gap:4px}.index-cell{padding:6px 2px}.index-cell strong{font-size:.87rem}.index-code{font-size:.6rem;padding:10px}.index-state{gap:5px}.index-state span{padding:4px 6px;font-size:.62rem}}

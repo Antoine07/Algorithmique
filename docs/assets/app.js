@@ -163,6 +163,7 @@
     let position = 0;
     let revealed = false;
     let finished = false;
+    let disposeFlashAnimation = () => {};
     if (saved?.signature === signature && Array.isArray(saved.ratings) && saved.ratings.length === total &&
         saved.ratings.every(value => value === null || value === 'known' || value === 'review') &&
         Array.isArray(saved.queue) && saved.queue.length > 0 && new Set(saved.queue).size === saved.queue.length &&
@@ -178,6 +179,8 @@
     save();
 
     function render() {
+      disposeFlashAnimation();
+      disposeFlashAnimation = () => {};
       if (finished) { renderSummary(); return; }
       const index = queue[position];
       const card = cards[index];
@@ -185,8 +188,10 @@
       root.innerHTML = pageHeading(`<div class="score-chip"><span>DÉCLARÉES CONNUES</span><strong>${count('known')} <small>/ ${total}</small></strong></div>`) +
         progress(rated, queue.length, `${rated} / ${queue.length} cartes évaluées dans cette série`, queue.length === total ? 'Répondre · révéler · se situer' : 'Série des cartes à revoir') +
         `<div class="learning-layout"><aside class="sidebar"><p class="sidebar-title">VOTRE SÉRIE</p><nav class="question-map flash-map" aria-label="Choisir une flashcard">${queue.map((i, p) => `<button class="map-button ${ratings[i] === null ? '' : 'answered'}" data-card="${p}" ${p === position ? 'aria-current="step"' : ''} aria-label="Carte ${i+1} : ${escape(cards[i].title)}, ${label(ratings[i])}">${i+1}</button>`).join('')}</nav><p class="side-note">Formulez votre réponse avant de la révéler. Indiquez ensuite si vous la connaissiez.</p><p class="side-note">Cette autoévaluation n’est pas une note.</p><p class="keyboard-note"><kbd>Espace</kbd> pour révéler ou masquer.<br><kbd>←</kbd> <kbd>→</kbd> pour naviguer.</p><a class="back-link" href="${content.next}">← ${escape(content.nextLabel)}</a><p class="side-note saved">${store.available ? 'Votre progression est conservée dans ce navigateur.' : 'Le stockage est indisponible. La progression reste accessible pendant cette visite.'}</p></aside>
-        <div class="content-column"><article class="flashcard ${revealed ? 'is-revealed' : ''}"><div class="question-kicker">Carte ${String(index+1).padStart(2,'0')} <span class="pill">${revealed ? 'Réponse révélée' : 'À vous de répondre'}</span></div><h2 id="content-title" tabindex="-1">${escape(card.title)}</h2><div class="prose flash-prompt">${card.question}</div><button class="button primary flash-reveal" data-action="reveal" aria-expanded="${revealed}" aria-controls="flash-answer">${revealed ? 'Masquer la réponse' : 'Révéler la réponse'} <span aria-hidden="true">↻</span></button><section id="flash-answer" class="flash-answer" tabindex="-1" aria-label="Réponse expliquée" ${revealed ? '' : 'hidden'}>${revealed ? `<p class="eyebrow">LA RÉPONSE À RETENIR</p><div class="prose">${card.answer}</div><p class="flash-assess-label">Aviez-vous retrouvé cette réponse ?</p><div class="flash-assessment"><button class="button" data-rating="review">À revoir</button><button class="button primary" data-rating="known">Je savais ✓</button></div><p class="neutral-note">Votre choix enregistre ce repère et passe à la carte suivante.</p>` : ''}</section></article>
+        <div class="content-column"><article class="flashcard ${revealed ? 'is-revealed' : ''}"><div class="question-kicker">Carte ${String(index+1).padStart(2,'0')} <span class="pill">${revealed ? 'Réponse révélée' : 'À vous de répondre'}</span></div><h2 id="content-title" tabindex="-1">${escape(card.title)}</h2><div class="prose flash-prompt">${card.question}</div><button class="button primary flash-reveal" data-action="reveal" aria-expanded="${revealed}" aria-controls="flash-answer">${revealed ? 'Masquer la réponse' : 'Révéler la réponse'} <span aria-hidden="true">↻</span></button><section id="flash-answer" class="flash-answer" tabindex="-1" aria-label="Réponse expliquée" ${revealed ? '' : 'hidden'}>${revealed ? `<p class="eyebrow">LA RÉPONSE À RETENIR</p><div class="prose">${card.answer}</div>${card.animation ? '<div data-flash-animation></div>' : ''}<p class="flash-assess-label">Aviez-vous retrouvé cette réponse ?</p><div class="flash-assessment"><button class="button" data-rating="review">À revoir</button><button class="button primary" data-rating="known">Je savais ✓</button></div><p class="neutral-note">Votre choix enregistre ce repère et passe à la carte suivante.</p>` : ''}</section></article>
         <nav class="card-controls" aria-label="Navigation des flashcards"><button class="button" data-action="previous" ${position === 0 ? 'disabled' : ''}>← Précédente</button><span class="flash-position">${position+1} / ${queue.length}</span><button class="button" data-action="next">${rated === queue.length ? 'Voir le bilan' : position === queue.length-1 ? 'Carte à compléter' : 'Suivante'} →</button></nav><p class="neutral-note">Vous pouvez parcourir les cartes librement. Évaluez chaque carte pour terminer la série.</p></div></div>`;
+      const animationHost = root.querySelector('[data-flash-animation]');
+      if (animationHost && window.FlashcardAnimation) disposeFlashAnimation = window.FlashcardAnimation.mount(animationHost, card.animation);
     }
 
     function renderSummary() {

@@ -81,3 +81,5 @@ Où initialiser `matches = 0` si l'on compte les positions correspondantes pour 
 ### Réponse
 
 Au début de chaque fenêtre, dans la boucle extérieure et avant la boucle intérieure. Ainsi, les correspondances d'une fenêtre ne sont pas ajoutées au compte de la suivante.
+
+Après cette série, cinq flashcards animées permettent de s'entraîner sur les fenêtres, les indices `i + j` et les boucles imbriquées.
