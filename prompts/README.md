@@ -5,7 +5,7 @@ Ces prompts servent à obtenir des exercices de Python, à copier-coller ses ré
 ## Comment les utiliser ?
 
 1. Ouvrez une conversation avec votre assistant IA.
-2. Choisissez le prompt **débutant** ou **avancé** ci-dessous.
+2. Choisissez le prompt **débutant**.
 3. Copiez le bloc entier, remplacez les éléments entre crochets, puis envoyez-le.
 4. Résolvez le premier exercice dans votre environnement Python, par exemple [le labo du projet](../sandbox-algo/README.md).
 5. Exécutez votre code, puis collez votre réponse dans la conversation avec le prompt de correction.
